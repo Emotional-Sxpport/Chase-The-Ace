@@ -4,7 +4,8 @@ public class Player {
     private PlayingCard playingCard;
 
     public Player() {
-        playingCard = new PlayingCard(0, 0);
+        playingCard = new PlayingCard();
+        playingCard.randomize();
     }
 
     public Player(PlayingCard playingCard) {
@@ -17,9 +18,11 @@ public class Player {
     public void draw(int x, int y, Graphics g) {
 
         //super.paintComponent(g);
+        String str = "S" + getCard().getSuit() + " R" + getCard().getRank();
 
         g.setColor(Color.BLUE);
-        //int size = 100;
         g.fillRect(x, y, 80, 80);
+        g.setColor(Color.WHITE);
+        g.drawString(str, x + 5, y+75);
     }
 }

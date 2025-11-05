@@ -15,6 +15,11 @@ public class PlayingCard {
         this.rank = rank;
     }
 
+    public void randomize() {
+        suit = (int) (Math.random() * 4);
+        rank = (int) (Math.random() * 13);
+    }
+
     public int getSuit() { return suit; }
     public void setSuit(int suit) { this.suit = suit; }
     public int getRank() { return rank; }

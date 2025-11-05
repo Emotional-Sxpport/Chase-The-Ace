@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class ChaseTheAce extends JFrame {
 
@@ -22,9 +23,12 @@ public class ChaseTheAce extends JFrame {
             super.paintComponent(g);
 
             //PlayingCard card = new PlayingCard();
-            Player player = new Player();
-            player.getCard().draw(100, 100, g);
-            player.draw(200, 200, g);
+            //Player player = new Player();
+            System system = new System();
+            for (int i = 0; i < 4; i++) {
+                system.getPlayer(i).draw(100 + 150 * i, 100, g);
+            }
+            //player.draw(200, 200, g);
 
         }
     }
