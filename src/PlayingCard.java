@@ -1,4 +1,5 @@
 import javax.smartcardio.Card;
+import java.awt.*;
 
 public class PlayingCard {
     private int suit;
@@ -19,5 +20,12 @@ public class PlayingCard {
     public int getRank() { return rank; }
     public void setRank(int rank) { this.rank = rank; }
 
-    public void draw() {}
+    public void draw(int x, int y, Graphics g) {
+
+        //super.paintComponent(g);
+
+        g.setColor(Color.GREEN);
+        //int size = 100;
+        g.fillRect(x, y, 100, 150);
+    }
 }

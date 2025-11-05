@@ -21,11 +21,11 @@ public class ChaseTheAce extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
-            g.setColor(Color.BLUE);
-            int x = 100;
-            int y = 100;
-            int size = 100;
-            g.fillRect(x, y, size, size);
+            //PlayingCard card = new PlayingCard();
+            Player player = new Player();
+            player.getCard().draw(100, 100, g);
+            player.draw(200, 200, g);
+
         }
     }
 

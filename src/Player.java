@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Player {
     private PlayingCard playingCard;
 
@@ -9,5 +11,15 @@ public class Player {
         this.playingCard = playingCard;
     }
 
-    public void draw() {}
+    public PlayingCard getCard() { return playingCard; }
+    public void setCard(PlayingCard playingCard) { this.playingCard = playingCard; }
+
+    public void draw(int x, int y, Graphics g) {
+
+        //super.paintComponent(g);
+
+        g.setColor(Color.BLUE);
+        //int size = 100;
+        g.fillRect(x, y, 80, 80);
+    }
 }
