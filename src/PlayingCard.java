@@ -30,6 +30,7 @@ public class PlayingCard {
     public void setSuit(int suit) { this.suit = suit; }
     public int getRank() { return rank; }
     public void setRank(int rank) { this.rank = rank; }
+    public int getValue() { return 4*suit+rank; }
 
     /* DRAW FUNCTION */
     public void draw(int x, int y, Graphics g) {

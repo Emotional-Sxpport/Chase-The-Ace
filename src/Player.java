@@ -6,7 +6,7 @@ public class Player {
     /* INITIALIZES PLAYER */
     public Player() {
         playingCard = new PlayingCard();
-        playingCard.randomize();
+        //playingCard.randomize();
     }
 
     /* INITIALIZES PLAYER */

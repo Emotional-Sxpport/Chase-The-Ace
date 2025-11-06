@@ -19,6 +19,8 @@ public class System {
         for (int i = 0; i < playerCount; i++) {
             turnOrder[i] = new Player();
         }
+
+        shuffle();
     }
 
     /* INITIALIZES VARIABLES */
@@ -32,6 +34,22 @@ public class System {
         }
         for (int i = 0; i < playerCount; i++) {
             turnOrder[i] = new Player();
+        }
+
+        shuffle();
+    }
+
+    public void shuffle() {
+        for (int i = 0; i < 52; i++) {
+            availableCards[i] = true;
+        }
+
+        for (int i = 0; i < playerCount; i++) {
+            getPlayer(i).getCard().randomize();
+            if (!availableCards[getPlayer(i).getCard().getValue()])
+                i--;
+            else
+                availableCards[getPlayer(i).getCard().getValue()] = false;
         }
     }
 
