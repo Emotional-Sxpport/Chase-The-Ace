@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class System {
 
     private boolean[] availableCards;
@@ -5,6 +7,7 @@ public class System {
     private int turn;
     private int playerCount;
 
+    /* INITIALIZES VARIABLES */
     public System() {
         availableCards = new boolean[52];
         playerCount = 4;
@@ -18,6 +21,7 @@ public class System {
         }
     }
 
+    /* INITIALIZES VARIABLES */
     public System(int count) {
         availableCards = new boolean[52];
         playerCount = count;
@@ -26,12 +30,19 @@ public class System {
         for(int i = 0; i < 52; i++) {
             availableCards[i] = true;
         }
+        for (int i = 0; i < playerCount; i++) {
+            turnOrder[i] = new Player();
+        }
     }
 
+    /* GET / SET FUNCTIONS */
     public int getPlayerCount() { return playerCount; }
-    public Player getPlayer(int index) {
-        return turnOrder[index];
-    }
+    public Player getPlayer(int index) { return turnOrder[index]; }
 
-    //public draw ()
+    /* DRAWING FUNCTION */
+    public void draw(Graphics g) {
+        for (int i = 0; i < playerCount; i++) {
+            getPlayer(i).draw(100 + 150 * i, 100, g);
+        }
+    }
 }
