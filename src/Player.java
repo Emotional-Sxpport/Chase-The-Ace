@@ -6,7 +6,6 @@ public class Player {
     /* INITIALIZES PLAYER */
     public Player() {
         playingCard = new PlayingCard();
-        //playingCard.randomize();
     }
 
     /* INITIALIZES PLAYER */
@@ -20,12 +19,13 @@ public class Player {
 
     /* DRAW FUNCTION */
     public void draw(int x, int y, Graphics g) {
-
-        String str = "S" + getCard().getSuit() + " R" + getCard().getRank();
+        String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
+        String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10",  "Jack", "Queen", "King"};
 
         g.setColor(Color.BLUE);
         g.fillRect(x, y, 80, 80);
         g.setColor(Color.WHITE);
-        g.drawString(str, x + 5, y+75);
+        g.drawString(ranks[getCard().getRank()] + " of", x+5, y+60);
+        g.drawString(suits[getCard().getSuit()], x+5, y+75);
     }
 }
