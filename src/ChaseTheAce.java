@@ -6,10 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ChaseTheAce extends JFrame {
+public class ChaseTheAce extends JFrame implements ActionListener {
 
     private System system;
     private int test = 0;
+    JButton myButton;
 
     /* CREATES THE PANEL */
     public ChaseTheAce() {
@@ -18,6 +19,10 @@ public class ChaseTheAce extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         system = new System();
+
+        myButton = new JButton("Click Me");
+        myButton.addActionListener(this); // 'this' refers to the MyDrawingPanel instance
+        this.add(myButton);
 
         DrawingPanel panel = new DrawingPanel();
         add(panel);
@@ -42,7 +47,17 @@ public class ChaseTheAce extends JFrame {
 
     //@Override
     /* ACTION LISTENERS / BUTTONS - NOT WORKING YET */
-    public void actionPerformed(KeyEvent e) {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == myButton) {
+            // Code to execute when myButton is clicked
+            //System.out.println("Button clicked!");
+            system.shuffle();
+            // You can trigger a repaint here if the button action affects drawing
+            repaint();
+        }
+    }
+    /* public void actionPerformed(KeyEvent e) {
 
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_ENTER) {
@@ -52,7 +67,7 @@ public class ChaseTheAce extends JFrame {
         } else if (keyCode == KeyEvent.VK_SPACE) {
             //System.out.println("Space bar pressed!");
         }
-    }
+    } */
 
     /* MAIN FUNCTION */
     public static void main(String[] args) {
