@@ -33,7 +33,7 @@ public class PlayingCard {
     public int getValue() { return 4*suit+rank; }
 
     /* DRAW FUNCTION */
-    public void draw(int x, int y, Graphics g) {
+    public void draw(int x, int y, Graphics g, double scaleX, double scaleY) {
         g.setColor(Color.GREEN);
         g.fillRect(x, y, 100, 150);
     }
