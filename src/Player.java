@@ -17,6 +17,10 @@ public class Player {
     public PlayingCard getCard() { return playingCard; }
     public void setCard(PlayingCard playingCard) { this.playingCard = playingCard; }
 
+    public void play(PlayingCard othercard) {
+
+    }
+
     /* DRAW FUNCTION */
     public void draw(int x, int y, Graphics g) {
         String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
