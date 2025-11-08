@@ -17,8 +17,27 @@ public class Player {
     public PlayingCard getCard() { return playingCard; }
     public void setCard(PlayingCard playingCard) { this.playingCard = playingCard; }
 
-    public void play(PlayingCard othercard) {
+    public void trade(PlayingCard mycard, PlayingCard othercard){
+        PlayingCard temp = mycard;
+        mycard = othercard;
+        othercard = temp;
+    }
 
+    public void play(PlayingCard othercard, Player[] turnOrder, int currentPlayer){
+        //logic for their decision to stay or trade
+
+        //If they weren't traded with, just base on card rank
+        if(othercard == null){
+            if(playingCard.getRank() < 6){
+                //trade
+                trade(playingCard, turnOrder[currentPlayer+1].getCard());
+            }
+
+        //if they were traded with, consider their rank to the previous one
+        }else if(othercard.getRank() > this.playingCard.getRank() && playingCard.getRank() < 6){
+            //trade
+            trade(playingCard, turnOrder[currentPlayer+1].getCard());
+        }
     }
 
     /* DRAW FUNCTION */
