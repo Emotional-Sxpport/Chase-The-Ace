@@ -73,6 +73,40 @@ public class GameSystem {
         availableCards[deckCard.getValue()] = false;
     }
 
+    /* ELIMINATIONS */
+    public void endRound() {
+
+        //Determine what the lowest card is
+        int lowestRank = 13;
+        for (int i = 0; i < playerCount; i++) {
+            if (turnOrder[i].getCard().getRank() < lowestRank) {
+                lowestRank = turnOrder[i].getCard().getRank();
+            }
+        }
+
+        //Eliminate player(s) with the lowest card
+        for (int i = 0; i < playerCount; i++) {
+            if (turnOrder[i].getCard().getRank() == lowestRank) {
+
+                //End the game if the main player is eliminated
+                if(i == 0){
+                    //Game Over
+                }
+
+                //Eliminate a player by shifting all players down
+                for (int j = i; j < playerCount - 1; j++) {
+                    turnOrder[j] = turnOrder[j + 1];
+                    playerCount--;
+                }
+            }
+        }
+
+        //Check if the main player has won
+        if(playerCount == 1){
+            //Player wins
+        }
+    }
+
     /* GET / SET FUNCTIONS */
     public int getPlayerCount() { return playerCount; }
     public Player getPlayer(int index) { return turnOrder[index]; }
