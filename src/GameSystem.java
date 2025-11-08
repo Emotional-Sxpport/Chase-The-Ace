@@ -13,6 +13,7 @@ public class GameSystem {
         availableCards = new boolean[52];
         playerCount = 4;
         turnOrder = new Player[playerCount];
+        deckCard = new PlayingCard();
 
         for(int i = 0; i < 52; i++) {
             availableCards[i] = true;

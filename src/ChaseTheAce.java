@@ -11,11 +11,12 @@ public class ChaseTheAce extends JFrame implements KeyListener {
 
     private GameSystem system;
     private int test = 0;
+    private int screenWidth = 1500, screenHeight = 900;
 
     /* CREATES THE PANEL */
     public ChaseTheAce() {
         setTitle("Chase the Ace");
-        setSize(2100, 1400);
+        setSize(screenWidth, screenHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         system = new GameSystem();
@@ -36,9 +37,15 @@ public class ChaseTheAce extends JFrame implements KeyListener {
             PlayingCard card = new PlayingCard();
             system.draw(g);
 
+            int panelWidth = getWidth();
+            int panelHeight = getHeight();
+            double scaleX = (double) panelWidth / screenWidth;
+            double scaleY = (double) panelHeight / screenHeight;
+
             // ignore this for now
-            if (test == 1)
-                card.draw(300, 300, g);
+            //if (test == 1)
+                card.draw(100 + (int) (500 * scaleX) , 100 + (int) (500 * scaleY), g);
+                //card.draw(300, 300, g);
 
         }
     }
