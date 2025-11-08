@@ -44,7 +44,7 @@ public class ChaseTheAce extends JFrame implements KeyListener {
 
             // ignore this for now
             //if (test == 1)
-                card.draw(100 + (int) (500 * scaleX) , 100 + (int) (500 * scaleY), g, scaleX, scaleY);
+                card.draw(100 + (int) (50 * scaleX) , 100 + (int) (50 * scaleY), g);
                 //card.draw(300, 300, g);
 
         }

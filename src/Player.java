@@ -51,7 +51,7 @@ public class Player {
     }
 
     /* DRAW FUNCTION */
-    public void draw(int x, int y, Graphics g, double scaleX, double scaleY) {
+    public void draw(int x, int y, Graphics g) {
         String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
         String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10",  "Jack", "Queen", "King"};
 
