@@ -48,7 +48,7 @@ public class GameSystem {
         for (int i = 0; i < playerCount - 1; i++) {
             turnOrder[turn].play(turnOrder[(turn+1)%playerCount].getCard(), turnOrder, turn);
             turn = (turn+1)%playerCount;
-            //TimeUnit.SECONDS.sleep(1);
+            ///TimeUnit.SECONDS.sleep(1);
         }
         turnOrder[turn].play(deckCard, turnOrder, turn);
     }
