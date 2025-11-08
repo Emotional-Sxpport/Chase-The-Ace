@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class System {
+public class GameSystem {
 
     private boolean[] availableCards;
     private Player[] turnOrder;
@@ -8,7 +8,7 @@ public class System {
     private int playerCount;
 
     /* INITIALIZES VARIABLES */
-    public System() {
+    public GameSystem() {
         availableCards = new boolean[52];
         playerCount = 4;
         turnOrder = new Player[playerCount];
@@ -24,7 +24,7 @@ public class System {
     }
 
     /* INITIALIZES VARIABLES */
-    public System(int count) {
+    public GameSystem(int count) {
         availableCards = new boolean[52];
         playerCount = count;
         turnOrder = new Player[playerCount];
