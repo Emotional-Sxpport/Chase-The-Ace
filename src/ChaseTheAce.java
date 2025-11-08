@@ -6,11 +6,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ChaseTheAce extends JFrame implements ActionListener {
+public class ChaseTheAce extends JFrame implements KeyListener {
 
-    private System system;
+    private GameSystem system;
     private int test = 0;
-    JButton myButton;
 
     /* CREATES THE PANEL */
     public ChaseTheAce() {
@@ -18,15 +17,14 @@ public class ChaseTheAce extends JFrame implements ActionListener {
         setSize(2100, 1400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        system = new System();
-
-        myButton = new JButton("Click Me");
-        myButton.addActionListener(this); // 'this' refers to the MyDrawingPanel instance
-        this.add(myButton);
+        system = new GameSystem();
 
         DrawingPanel panel = new DrawingPanel();
+
         add(panel);
         setVisible(true);
+        panel.requestFocusInWindow();
+        panel.addKeyListener(this);
     }
 
     /* DRAWING COMPONENT */
@@ -34,7 +32,6 @@ public class ChaseTheAce extends JFrame implements ActionListener {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-
             PlayingCard card = new PlayingCard();
             system.draw(g);
 
@@ -45,29 +42,27 @@ public class ChaseTheAce extends JFrame implements ActionListener {
         }
     }
 
-    //@Override
-    /* ACTION LISTENERS / BUTTONS - NOT WORKING YET */
+
+
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == myButton) {
-            // Code to execute when myButton is clicked
-            //System.out.println("Button clicked!");
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        if (keyCode == KeyEvent.VK_ENTER) {
+            System.out.println("Enter pressed!");
+            test = 1;
+            repaint();
+        } else if (keyCode == KeyEvent.VK_SPACE) {
+            System.out.println("Space pressed!");
             system.shuffle();
-            // You can trigger a repaint here if the button action affects drawing
             repaint();
         }
     }
-    /* public void actionPerformed(KeyEvent e) {
 
-        int keyCode = e.getKeyCode();
-        if (keyCode == KeyEvent.VK_ENTER) {
-            //System.out.println("Enter key pressed!");
-            test = 1;
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
-        } else if (keyCode == KeyEvent.VK_SPACE) {
-            //System.out.println("Space bar pressed!");
-        }
-    } */
+    @Override
+    public void keyTyped(KeyEvent e) {}
 
     /* MAIN FUNCTION */
     public static void main(String[] args) {
