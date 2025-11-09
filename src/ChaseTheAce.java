@@ -11,7 +11,8 @@ public class ChaseTheAce extends JFrame implements KeyListener {
 
     private GameSystem system;
     private int test = 0;
-    private int screenWidth = 1500, screenHeight = 900;
+    private int screenWidth = 1120, screenHeight = 630;
+    private int initWidth = 1120, initHeight = 630;
 
     /* CREATES THE PANEL */
     public ChaseTheAce() {
@@ -34,18 +35,35 @@ public class ChaseTheAce extends JFrame implements KeyListener {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            PlayingCard card = new PlayingCard();
-            system.draw(g);
+            setBackground(Color.BLACK);
 
+            double scale;
+            int offsetX, offsetY;
             int panelWidth = getWidth();
             int panelHeight = getHeight();
-            double scaleX = (double) panelWidth / screenWidth;
-            double scaleY = (double) panelHeight / screenHeight;
+            double scaleX = (double) panelWidth / initWidth;
+            double scaleY = (double) panelHeight / initHeight;
 
-            // ignore this for now
+            if (panelWidth / 16 <= panelHeight / 9) {
+                scale = (double) panelWidth / (double) initWidth;
+                offsetX = 0;
+                offsetY = (panelHeight - (int)(initHeight * scale)) / 2;
+                System.out.println("offsetY: " + offsetY);
+            }
+            else {
+                scale = (double) panelHeight / (double) initHeight;
+                offsetX = (panelWidth - (int)(initWidth * scale)) / 2;
+                offsetY = 0;
+                System.out.println("offsetX: " + offsetX);
+            }
+
+            g.setColor(Color.WHITE);
+            g.fillRect(offsetX, offsetY, (int) (initWidth * scale), (int) (initHeight * scale));
+            PlayingCard card = new PlayingCard();
+            system.draw(g, scale, offsetX, offsetY);
+
             //if (test == 1)
-                card.draw(100 + (int) (50 * scaleX) , 100 + (int) (50 * scaleY), g);
-                //card.draw(300, 300, g);
+            card.draw(200, 200, g, scale, offsetX, offsetY);
 
         }
     }

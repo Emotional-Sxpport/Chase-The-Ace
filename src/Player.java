@@ -51,14 +51,15 @@ public class Player {
     }
 
     /* DRAW FUNCTION */
-    public void draw(int x, int y, Graphics g) {
+    public void draw(int x, int y, Graphics g, double scale, int offsetX, int offsetY) {
         String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
-        String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10",  "Jack", "Queen", "King"};
+        String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
 
         g.setColor(Color.BLUE);
-        g.fillRect(x, y, 80, 80);
+        g.fillRect(offsetX + (int) (x * scale), offsetY + (int) (y * scale), (int) (80 * scale), (int) (80 * scale));
         g.setColor(Color.WHITE);
-        g.drawString(ranks[getCard().getRank()] + " of", x+5, y+60);
-        g.drawString(suits[getCard().getSuit()], x+5, y+75);
+        g.setFont(new Font("Arial", Font.PLAIN, (int)(16*scale)));
+        g.drawString(ranks[getCard().getRank()] + " of", offsetX + (int) ((x + 5) * scale), offsetY + (int) ((y + 60) * scale));
+        g.drawString(suits[getCard().getSuit()], offsetX + (int) ((x + 5) * scale), offsetY + (int) ((y + 75) * scale));
     }
 }

@@ -112,9 +112,9 @@ public class GameSystem {
     public Player getPlayer(int index) { return turnOrder[index]; }
 
     /* DRAWING FUNCTION */
-    public void draw(Graphics g) {
+    public void draw(Graphics g, double scale, int offsetX, int offsetY) {
         for (int i = 0; i < playerCount; i++) {
-            getPlayer(i).draw(100 + 150 * i, 100, g);
+            getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY);
         }
     }
 }

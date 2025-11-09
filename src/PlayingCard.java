@@ -33,8 +33,8 @@ public class PlayingCard {
     public int getValue() { return 4*suit+rank; }
 
     /* DRAW FUNCTION */
-    public void draw(int x, int y, Graphics g) {
+    public void draw(int x, int y, Graphics g, double scale, int offsetX, int offsetY) {
         g.setColor(Color.GREEN);
-        g.fillRect(x, y, 100, 150);
+        g.fillRect(offsetX + (int)(x*scale), offsetY + (int)(y*scale), (int)(100*scale), (int)(150*scale));
     }
 }
