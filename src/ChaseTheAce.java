@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Thread.sleep;
+
 public class ChaseTheAce extends JFrame implements KeyListener {
 
     private GameSystem system;
@@ -85,8 +87,6 @@ public class ChaseTheAce extends JFrame implements KeyListener {
         setVisible(true);
         panel.requestFocusInWindow();
         panel.addKeyListener(this);
-
-
     }
 
     /* DRAWING COMPONENT */

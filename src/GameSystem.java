@@ -8,6 +8,7 @@ public class GameSystem {
     private int turnStart, turn;
     private int playerCount;
     private PlayingCard deckCard;
+    private int gameOver; // 0 for not over, 1 for loss, 2 for win
 
     /* INITIALIZES VARIABLES */
     public GameSystem() {
@@ -15,6 +16,7 @@ public class GameSystem {
         playerCount = 4;
         turnOrder = new Player[playerCount];
         deckCard = new PlayingCard();
+        gameOver = 0;
 
         for(int i = 0; i < 52; i++) {
             availableCards[i] = true;
@@ -99,6 +101,7 @@ public class GameSystem {
                 //End the game if the main player is eliminated
                 if(i == 0){
                     //Game Over
+                    gameOver = 1;
                 }
 
                 //Eliminate a player by shifting all players down
@@ -112,6 +115,7 @@ public class GameSystem {
         //Check if the main player has won
         if(playerCount == 1){
             //Player wins
+            gameOver = 2;
         }
     }
 
@@ -119,10 +123,26 @@ public class GameSystem {
     public int getPlayerCount() { return playerCount; }
     public Player getPlayer(int index) { return turnOrder[index]; }
 
+    public void test() {
+        gameOver = 1;
+    }
+
     /* DRAWING FUNCTION */
     public void draw(Graphics g, double scale, int offsetX, int offsetY) {
-        for (int i = 0; i < playerCount; i++) {
-            getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY);
+        if (gameOver == 0) {
+            for (int i = 0; i < playerCount; i++) {
+                getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY);
+            }
+        }
+        else {
+            g.setColor(Color.BLACK);
+            g.fillRect(offsetX, offsetY, (int) (1120 * scale), (int) (630 * scale));
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", Font.PLAIN, (int)(30*scale)));
+            if (gameOver == 1)
+                g.drawString("You Lost!", offsetX + (int)(500*scale), offsetY + (int)(300*scale));
+            else if (gameOver == 2)
+                g.drawString("You Won!", offsetX + (int)(500*scale), offsetY + (int)(300*scale));
         }
     }
 }
