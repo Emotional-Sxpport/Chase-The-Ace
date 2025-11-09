@@ -12,6 +12,7 @@ public class GameSystem {
     private boolean playersTurn;
     private int waiting;
 
+
     /* INITIALIZES VARIABLES */
     public GameSystem() {
         availableCards = new boolean[52];
@@ -20,32 +21,23 @@ public class GameSystem {
         deckCard = new PlayingCard();
         gameOver = 0;
 
-        for(int i = 0; i < 52; i++) {
-            availableCards[i] = true;
-        }
-        for (int i = 0; i < playerCount; i++) {
-            turnOrder[i] = new Player();
-        }
-
+        for(int i = 0; i < 52; i++) { availableCards[i] = true; }
+        for (int i = 0; i < playerCount; i++) { turnOrder[i] = new Player(); }
         start();
     }
+
 
     /* INITIALIZES VARIABLES */
     public GameSystem(int count) {
         availableCards = new boolean[52];
         playerCount = count;
         turnOrder = new Player[playerCount];
-
-        for(int i = 0; i < 52; i++) {
-            availableCards[i] = true;
-        }
-        for (int i = 0; i < playerCount; i++) {
-            turnOrder[i] = new Player();
-        }
-
-        //shuffle();
+        for(int i = 0; i < 52; i++) { availableCards[i] = true; }
+        for (int i = 0; i < playerCount; i++) { turnOrder[i] = new Player(); }
     }
 
+
+    /* STARTS A ROUND */
     public void start() {
         shuffle();
         turnStart = (int) (Math.random() * playerCount);
@@ -59,33 +51,32 @@ public class GameSystem {
                 //Wait for the player to click
                 //if trade, call trade
                 //if stay, increment turn
+                System.out.println("PLAYERS TURN");
                 waiting = 0;
                 playersTurn = true;
                 //while (waiting == 0);
                 if (waiting == 1) {
-                    //Enter is pressed - trade
                     turnOrder[turn].trade(turnOrder[turn].getCard(), traded, turnOrder, turn);
-                    turn = (turn + 1) % playerCount;
                 }
                 else if (waiting == 2) {
-                    //Space is pressed - stay
                     traded = null;
-                    turn = (turn + 1) % playerCount;
                 }
+                turn = (turn + 1) % playerCount;
 
             }else {
                 turnOrder[turn].play(traded, turnOrder, turn);
                 turn = (turn + 1) % playerCount;
                 playersTurn = false;
+                System.out.println("NOT PLAYERS TURN");
                 ///TimeUnit.SECONDS.sleep(1);
             }
         }
     }
 
+
+    /* SHUFFLES THE HANDS */
     public void shuffle() {
-        for (int i = 0; i < 52; i++) {
-            availableCards[i] = true;
-        }
+        for (int i = 0; i < 52; i++) { availableCards[i] = true; }
 
         for (int i = 0; i < playerCount; i++) {
             getPlayer(i).getCard().randomize();
@@ -100,6 +91,7 @@ public class GameSystem {
         }
         availableCards[deckCard.getValue()] = false;
     }
+
 
     /* ELIMINATIONS */
     public void endRound() {
@@ -137,6 +129,7 @@ public class GameSystem {
         }
     }
 
+
     /* GET / SET FUNCTIONS */
     public int getPlayerCount() { return playerCount; }
     public Player getPlayer(int index) { return turnOrder[index]; }
@@ -147,6 +140,7 @@ public class GameSystem {
         gameOver = 1;
     }
 
+
     /* DRAWING FUNCTION */
     public void draw(Graphics g, double scale, int offsetX, int offsetY) {
         if (gameOver == 0) {
@@ -154,7 +148,7 @@ public class GameSystem {
                 getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY);
             }
         }
-        else {
+        else { // game over screens
             g.setColor(Color.BLACK);
             g.fillRect(offsetX, offsetY, (int) (1120 * scale), (int) (630 * scale));
             g.setColor(Color.WHITE);

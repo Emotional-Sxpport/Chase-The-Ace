@@ -3,20 +3,14 @@ import java.awt.*;
 public class Player {
     private PlayingCard playingCard;
 
-    /* INITIALIZES PLAYER */
-    public Player() {
-        playingCard = new PlayingCard();
-    }
-
-    /* INITIALIZES PLAYER */
+    /* CONSTRUCTORS */
+    public Player() { playingCard = new PlayingCard(); }
     public Player(PlayingCard playingCard) {
         this.playingCard = playingCard;
     }
 
-    /* GET / SET FUNCTIONS */
-    public PlayingCard getCard() { return playingCard; }
-    public void setCard(PlayingCard playingCard) { this.playingCard = playingCard; }
 
+    /* PLAYER TRADES CARDS */
     public void trade(PlayingCard mycard, PlayingCard othercard, Player[] turnOrder, int nextPlayer){
         PlayingCard temp;
         if(nextPlayer > (turnOrder.length-1)) {
@@ -36,6 +30,8 @@ public class Player {
         }
     }
 
+
+    /* PLAYER MAKES THEIR TURN */
     public void play(PlayingCard othercard, Player[] turnOrder, int currentPlayer){
         //logic for their decision to stay or trade
 
@@ -58,6 +54,12 @@ public class Player {
             othercard = null;
         }
     }
+
+
+    /* GET / SET FUNCTIONS */
+    public PlayingCard getCard() { return playingCard; }
+    public void setCard(PlayingCard playingCard) { this.playingCard = playingCard; }
+
 
     /* DRAW FUNCTION */
     public void draw(int x, int y, Graphics g, double scale, int offsetX, int offsetY) {

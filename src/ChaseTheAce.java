@@ -25,6 +25,7 @@ public class ChaseTheAce extends JFrame implements KeyListener {
     private volatile String selectedChoice = null;
     private volatile CountDownLatch choiceLatch = null;
 
+
     /* CREATES THE PANEL */
     public ChaseTheAce() {
         setTitle("Chase the Ace");
@@ -88,6 +89,7 @@ public class ChaseTheAce extends JFrame implements KeyListener {
         panel.addKeyListener(this);
     }
 
+
     /* DRAWING COMPONENT */
     class DrawingPanel extends JPanel {
         @Override
@@ -106,13 +108,13 @@ public class ChaseTheAce extends JFrame implements KeyListener {
                 scale = (double) panelWidth / (double) initWidth;
                 offsetX = 0;
                 offsetY = (panelHeight - (int)(initHeight * scale)) / 2;
-                System.out.println("offsetY: " + offsetY);
+                //System.out.println("offsetY: " + offsetY);
             }
             else {
                 scale = (double) panelHeight / (double) initHeight;
                 offsetX = (panelWidth - (int)(initWidth * scale)) / 2;
                 offsetY = 0;
-                System.out.println("offsetX: " + offsetX);
+                //System.out.println("offsetX: " + offsetX);
             }
 
             g.setColor(Color.WHITE);
@@ -125,6 +127,7 @@ public class ChaseTheAce extends JFrame implements KeyListener {
 
         }
     }
+
 
     /**
      * Shows the choice controls on the DrawingPanel and blocks until the player submits.
@@ -151,14 +154,19 @@ public class ChaseTheAce extends JFrame implements KeyListener {
         return selectedChoice;
     }
 
+
+    /* DETECTS KEY INPUTS */
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if (system.getWaiting() == 0 && keyCode == KeyEvent.VK_ENTER) {
+        // if (system.getWaiting() == 0 && keyCode == KeyEvent.VK_ENTER) {
+        if (keyCode == KeyEvent.VK_ENTER) {
             System.out.println("Enter pressed!");
             system.setWaiting(1);
             repaint();
-        } else if (system.getWaiting() == 0 && keyCode == KeyEvent.VK_SPACE) {
+        } //else if (system.getWaiting() == 0 && keyCode == KeyEvent.VK_SPACE) {
+
+        else if (keyCode == KeyEvent.VK_SPACE) {
             System.out.println("Space pressed!");
             //system.shuffle();
             system.setWaiting(2);
@@ -166,11 +174,13 @@ public class ChaseTheAce extends JFrame implements KeyListener {
         }
     }
 
+    /* I HAVE TO INCLUDE THESE OR THE CODE BREAKS */
     @Override
     public void keyReleased(KeyEvent e) {}
 
     @Override
     public void keyTyped(KeyEvent e) {}
+
 
     /* MAIN FUNCTION */
     public static void main(String[] args) {
