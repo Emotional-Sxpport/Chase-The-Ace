@@ -17,36 +17,45 @@ public class Player {
     public PlayingCard getCard() { return playingCard; }
     public void setCard(PlayingCard playingCard) { this.playingCard = playingCard; }
 
-    public void trade(PlayingCard mycard, Player[] turnOrder, int nextPlayer){
+    public void trade(PlayingCard mycard, PlayingCard othercard, Player[] turnOrder, int nextPlayer){
         PlayingCard temp;
-        if(nextPlayer >= turnOrder.length) {
+        if(nextPlayer > turnOrder.length) {
             //Generate new card
             temp = new PlayingCard();
             temp.randomize();
             this.setCard(temp);
+        }else if(turnOrder[nextPlayer].getCard().getValue() == 12){
+            //If the next player has a king, the trade is blocked
+            return;
         }else {
             //Get next player's card
             temp = turnOrder[nextPlayer].getCard();
             turnOrder[nextPlayer].setCard(mycard);
+            othercard = temp;
             this.setCard(temp);
         }
-        return;
     }
 
-    public void play(PlayingCard othercard, Player[] turnOrder, int nextPlayer){
+    public void play(PlayingCard othercard, Player[] turnOrder, int currentPlayer){
         //logic for their decision to stay or trade
 
-        //If they weren't traded with, just base on card rank
+        //If they weren't traded with, just base their decision on card rank
         if(othercard == null){
             if(playingCard.getRank() < 6){
                 //trade
-                trade(playingCard, turnOrder, nextPlayer);
+                trade(playingCard, othercard, turnOrder, currentPlayer+1);
+            }else{
+                //stay
+                othercard = null;
             }
 
-        //if they were traded with, consider their rank to the previous one
+        //If they were traded with, consider their rank to the previous one
         }else if(othercard.getRank() > this.playingCard.getRank() && playingCard.getRank() < 6){
             //trade
-            trade(playingCard, turnOrder, nextPlayer);
+            trade(playingCard, othercard, turnOrder, currentPlayer+1);
+        } else {
+            //stay
+            othercard = null;
         }
     }
 

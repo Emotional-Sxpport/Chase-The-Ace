@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 
 public class GameSystem {
@@ -22,7 +23,7 @@ public class GameSystem {
             turnOrder[i] = new Player();
         }
 
-        shuffle();
+        start();
     }
 
     /* INITIALIZES VARIABLES */
@@ -45,13 +46,21 @@ public class GameSystem {
         shuffle();
         turnStart = (int) (Math.random() * playerCount);
         turn = turnStart;
+        PlayingCard traded = null;
 
-        for (int i = 0; i < playerCount - 1; i++) {
-            turnOrder[turn].play(turnOrder[(turn+1)%playerCount].getCard(), turnOrder, turn);
-            turn = (turn+1)%playerCount;
-            ///TimeUnit.SECONDS.sleep(1);
+        for (int i = 0; i < playerCount; i++) {
+            if(turn % playerCount == 0){
+                //Generate the buttons
+
+                //Wait for the player to click
+                //if trade, call trade
+                //if stay, increment turn
+            }else {
+                turnOrder[turn].play(traded, turnOrder, turn);
+                turn = (turn + 1) % playerCount;
+                ///TimeUnit.SECONDS.sleep(1);
+            }
         }
-        turnOrder[turn].play(deckCard, turnOrder, turn);
     }
 
     public void shuffle() {

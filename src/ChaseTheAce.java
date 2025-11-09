@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class ChaseTheAce extends JFrame implements KeyListener {
@@ -14,20 +15,78 @@ public class ChaseTheAce extends JFrame implements KeyListener {
     private int screenWidth = 1120, screenHeight = 630;
     private int initWidth = 1120, initHeight = 630;
 
+    private JRadioButton tradeButton = null;
+    private JRadioButton stayButton = null;
+    private JButton submitButton = null;
+    private ButtonGroup choiceGroup = null;
+
+    private JPanel controlsPanel = null;
+    private volatile String selectedChoice = null;
+    private volatile CountDownLatch choiceLatch = null;
+
     /* CREATES THE PANEL */
     public ChaseTheAce() {
         setTitle("Chase the Ace");
         setSize(screenWidth, screenHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
         system = new GameSystem();
 
         DrawingPanel panel = new DrawingPanel();
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        tradeButton = new JRadioButton("Trade Card");
+        tradeButton.setName("tradeButton");
+        stayButton = new JRadioButton("Stay with Card");
+        stayButton.setName("stayButton");
+        submitButton = new JButton("Submit Choice");
+        submitButton.setName("submitButton");
+
+        choiceGroup = new ButtonGroup();
+        choiceGroup.add(tradeButton);
+        choiceGroup.add(stayButton);
+
+        controlsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        controlsPanel.add(tradeButton);
+        controlsPanel.add(stayButton);
+        controlsPanel.add(submitButton);
+        controlsPanel.setVisible(false);
+
+        // submit action: record choice and release latch
+        submitButton.addActionListener(e -> {
+            if (choiceLatch == null) return; // nothing waiting
+            if (tradeButton.isSelected()) {
+                selectedChoice = "Trade";
+            } else if (stayButton.isSelected()) {
+                selectedChoice = "Stay";
+            } else {
+                // default if nothing chosen
+                selectedChoice = "Stay";
+            }
+            // hide controls and release waiting thread
+            SwingUtilities.invokeLater(() -> controlsPanel.setVisible(false));
+            choiceLatch.countDown();
+        });
+
+        panel.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        panel.setLayout(new BorderLayout()); // allow adding controls
+        panel.add(controlsPanel, BorderLayout.SOUTH);
 
         add(panel);
         setVisible(true);
         panel.requestFocusInWindow();
         panel.addKeyListener(this);
+
+
     }
 
     /* DRAWING COMPONENT */
@@ -68,7 +127,30 @@ public class ChaseTheAce extends JFrame implements KeyListener {
         }
     }
 
-
+    /**
+     * Shows the choice controls on the DrawingPanel and blocks until the player submits.
+     * Must be called from a non-EDT thread (this method will block).
+     */
+    public String requestPlayerChoiceBlocking() {
+        choiceLatch = new CountDownLatch(1);
+        selectedChoice = null;
+        // clear previous selection and show controls on EDT
+        SwingUtilities.invokeLater(() -> {
+            choiceGroup.clearSelection();
+            controlsPanel.setVisible(true);
+            controlsPanel.revalidate();
+            controlsPanel.repaint();
+        });
+        try {
+            choiceLatch.await(); // block until submit clicked
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            selectedChoice = null;
+        } finally {
+            choiceLatch = null;
+        }
+        return selectedChoice;
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
