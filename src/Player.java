@@ -19,7 +19,7 @@ public class Player {
 
     public void trade(PlayingCard mycard, PlayingCard othercard, Player[] turnOrder, int nextPlayer){
         PlayingCard temp;
-        if(nextPlayer > turnOrder.length) {
+        if(nextPlayer > (turnOrder.length-1)) {
             //Generate new card
             temp = new PlayingCard();
             temp.randomize();
