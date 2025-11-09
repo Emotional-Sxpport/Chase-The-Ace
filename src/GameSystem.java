@@ -60,12 +60,16 @@ public class GameSystem {
                 //if stay, increment turn
                 waiting = 0;
                 playersTurn = true;
-                while (waiting == 0);
+                //while (waiting == 0);
                 if (waiting == 1) {
-
+                    //Enter is pressed - trade
+                    turnOrder[turn].trade(turnOrder[turn].getCard(), traded, turnOrder, turn);
+                    turn = (turn + 1) % playerCount;
                 }
                 else if (waiting == 2) {
-
+                    //Space is pressed - stay
+                    traded = null;
+                    turn = (turn + 1) % playerCount;
                 }
 
             }else {
