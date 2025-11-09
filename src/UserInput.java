@@ -68,6 +68,11 @@ public class UserInput extends Thread {
                 turn = (turn + 1) % playerCount;
                 //playersTurn = false;
                 System.out.println("NOT PLAYERS TURN");
+                try {
+                    sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 ///TimeUnit.SECONDS.sleep(1);
             }
         }

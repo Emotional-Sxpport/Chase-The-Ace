@@ -101,20 +101,16 @@ public class ChaseTheAce extends JFrame implements KeyListener {
             int offsetX, offsetY;
             int panelWidth = getWidth();
             int panelHeight = getHeight();
-            double scaleX = (double) panelWidth / initWidth;
-            double scaleY = (double) panelHeight / initHeight;
 
             if (panelWidth / 16 <= panelHeight / 9) {
                 scale = (double) panelWidth / (double) initWidth;
                 offsetX = 0;
                 offsetY = (panelHeight - (int)(initHeight * scale)) / 2;
-                //System.out.println("offsetY: " + offsetY);
             }
             else {
                 scale = (double) panelHeight / (double) initHeight;
                 offsetX = (panelWidth - (int)(initWidth * scale)) / 2;
                 offsetY = 0;
-                //System.out.println("offsetX: " + offsetX);
             }
 
             g.setColor(Color.WHITE);
@@ -123,7 +119,7 @@ public class ChaseTheAce extends JFrame implements KeyListener {
             system.draw(g, scale, offsetX, offsetY);
 
             //if (test == 1)
-            card.draw(200, 200, g, scale, offsetX, offsetY);
+            //card.draw(200, 200, g, scale, offsetX, offsetY);
 
         }
     }
@@ -186,6 +182,7 @@ public class ChaseTheAce extends JFrame implements KeyListener {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new ChaseTheAce();
+
         });
     }
 }

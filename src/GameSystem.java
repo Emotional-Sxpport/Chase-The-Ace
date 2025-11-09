@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 
+import static java.lang.Thread.sleep;
+
 public class GameSystem {
 
     private boolean[] availableCards;
@@ -38,12 +40,18 @@ public class GameSystem {
     }
 
 
-    /* STARTS A ROUND */
     public void start() {
+        Thread thread = new UserInput(this);
+        thread.start();
+    }
+
+    /* STARTS A ROUND */
+    public void start2() {
         shuffle();
         turnStart = (int) (Math.random() * playerCount);
         turn = turnStart;
         traded = null;
+        waiting = -1;
 
         for (int i = 0; i < playerCount; i++) {
             if(turn % playerCount == 0){
@@ -70,6 +78,7 @@ public class GameSystem {
                 //    throw new RuntimeException(e);
                 //}
                 turn = (turn + 1) % playerCount;
+                waiting = -1;
 
             }else {
                 turnOrder[turn].play(traded, turnOrder, turn);
@@ -77,6 +86,11 @@ public class GameSystem {
                 playersTurn = false;
                 System.out.println("NOT PLAYERS TURN");
                 ///TimeUnit.SECONDS.sleep(1);
+                try {
+                    sleep(5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
