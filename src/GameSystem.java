@@ -11,6 +11,7 @@ public class GameSystem {
     private int gameOver; // 0 for not over, 1 for loss, 2 for win
     private boolean playersTurn;
     private int waiting;
+    public PlayingCard traded;
 
 
     /* INITIALIZES VARIABLES */
@@ -42,15 +43,17 @@ public class GameSystem {
         shuffle();
         turnStart = (int) (Math.random() * playerCount);
         turn = turnStart;
-        PlayingCard traded = null;
+        traded = null;
 
         for (int i = 0; i < playerCount; i++) {
             if(turn % playerCount == 0){
-                //Hi Cole again :)
                 //Generate the buttons
                 //Wait for the player to click
                 //if trade, call trade
                 //if stay, increment turn
+                //Thread thread = new UserInput(this);
+                //thread.start();
+
                 System.out.println("PLAYERS TURN");
                 waiting = 0;
                 playersTurn = true;
@@ -61,6 +64,11 @@ public class GameSystem {
                 else if (waiting == 2) {
                     traded = null;
                 }
+                //try {
+                //    thread.join();
+                //} catch (InterruptedException e) {
+                //    throw new RuntimeException(e);
+                //}
                 turn = (turn + 1) % playerCount;
 
             }else {
@@ -135,6 +143,11 @@ public class GameSystem {
     public Player getPlayer(int index) { return turnOrder[index]; }
     public int getWaiting() { return waiting; }
     public void setWaiting(int var) { waiting = var; }
+    public Player[] getTurnOrder() { return turnOrder; }
+    public int getTurn() { return turn; }
+    public int getTurnStart() { return turnStart; }
+    public PlayingCard getTraded() { return traded; }
+
 
     public void test() {
         gameOver = 1;
