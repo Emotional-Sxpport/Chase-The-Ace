@@ -9,6 +9,8 @@ public class GameSystem {
     private int playerCount;
     private PlayingCard deckCard;
     private int gameOver; // 0 for not over, 1 for loss, 2 for win
+    private boolean playersTurn;
+    private int waiting;
 
     /* INITIALIZES VARIABLES */
     public GameSystem() {
@@ -56,9 +58,20 @@ public class GameSystem {
                 //Wait for the player to click
                 //if trade, call trade
                 //if stay, increment turn
+                waiting = 0;
+                playersTurn = true;
+                while (waiting == 0);
+                if (waiting == 1) {
+
+                }
+                else if (waiting == 2) {
+
+                }
+
             }else {
                 turnOrder[turn].play(traded, turnOrder, turn);
                 turn = (turn + 1) % playerCount;
+                playersTurn = false;
                 ///TimeUnit.SECONDS.sleep(1);
             }
         }
@@ -122,6 +135,8 @@ public class GameSystem {
     /* GET / SET FUNCTIONS */
     public int getPlayerCount() { return playerCount; }
     public Player getPlayer(int index) { return turnOrder[index]; }
+    public int getWaiting() { return waiting; }
+    public void setWaiting(int var) { waiting = var; }
 
     public void test() {
         gameOver = 1;

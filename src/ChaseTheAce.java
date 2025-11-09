@@ -13,7 +13,6 @@ import static java.lang.Thread.sleep;
 public class ChaseTheAce extends JFrame implements KeyListener {
 
     private GameSystem system;
-    private int test = 0;
     private int screenWidth = 1120, screenHeight = 630;
     private int initWidth = 1120, initHeight = 630;
 
@@ -155,13 +154,14 @@ public class ChaseTheAce extends JFrame implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if (keyCode == KeyEvent.VK_ENTER) {
+        if (system.getWaiting() == 0 && keyCode == KeyEvent.VK_ENTER) {
             System.out.println("Enter pressed!");
-            test = 1;
+            system.setWaiting(1);
             repaint();
-        } else if (keyCode == KeyEvent.VK_SPACE) {
+        } else if (system.getWaiting() == 0 && keyCode == KeyEvent.VK_SPACE) {
             System.out.println("Space pressed!");
-            system.shuffle();
+            //system.shuffle();
+            system.setWaiting(2);
             repaint();
         }
     }
