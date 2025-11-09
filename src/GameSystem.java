@@ -54,6 +54,7 @@ public class GameSystem {
 
         for (int i = 0; i < playerCount; i++) {
             if(turn % playerCount == 0){
+                //Hi Cole
                 //Generate the buttons
                 //Wait for the player to click
                 //if trade, call trade
