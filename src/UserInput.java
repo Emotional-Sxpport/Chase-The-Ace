@@ -44,17 +44,20 @@ public class UserInput extends Thread {
 
             }else {
                 system.setTurn(turn);
+                try {
+                    sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0);
                 turn = (turn + 1) % playerCount;
                 //playersTurn = false;
                 System.out.println("NOT PLAYERS TURN");
                 try {
-                    sleep(3000);
+                    sleep(2500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                //system.setTurn(turn);
-                ///TimeUnit.SECONDS.sleep(1);
             }
         }
         system.endRound();
