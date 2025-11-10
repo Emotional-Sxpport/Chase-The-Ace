@@ -6,28 +6,6 @@ public class UserInput extends Thread {
         this.system = system;
     }
 
-    /*
-    @Override
-    public void run() {
-        int turn = system.getTurn();
-        Player turnOrder[] = system.getTurnOrder();
-        PlayingCard traded = system.getTraded();
-
-        System.out.println("PLAYERS TURN");
-        system.setWaiting(0);
-        //playersTurn = true;
-        while (system.getWaiting() == 0) {
-            System.out.println("waiting");
-        }
-        if (system.getWaiting() == 1) {
-            system.getTurnOrder()[turn].trade(turnOrder[turn].getCard(), traded, turnOrder, turn);
-        }
-        else if (system.getWaiting() == 2) {
-            traded = null;
-        }
-        //turn = (turn + 1) % system.getPlayerCount();
-    }*/
-
     @Override
     public void run() {
         int turn = system.getTurn();
@@ -48,7 +26,7 @@ public class UserInput extends Thread {
                 //if trade, call trade
                 //if stay, increment turn
 
-
+                system.setTurn(turn);
                 System.out.println("PLAYERS TURN");
                 system.setWaiting(0);
                 //playersTurn = true;
@@ -63,7 +41,9 @@ public class UserInput extends Thread {
                 }
                 turn = (turn + 1) % playerCount;
 
+
             }else {
+                system.setTurn(turn);
                 turnOrder[turn].play(traded, turnOrder, turn);
                 turn = (turn + 1) % playerCount;
                 //playersTurn = false;
@@ -73,8 +53,10 @@ public class UserInput extends Thread {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+                //system.setTurn(turn);
                 ///TimeUnit.SECONDS.sleep(1);
             }
         }
+        system.endRound();
     }
 }

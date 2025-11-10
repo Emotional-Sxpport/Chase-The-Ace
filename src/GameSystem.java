@@ -40,59 +40,10 @@ public class GameSystem {
     }
 
 
+    /* STARTS A ROUND */
     public void start() {
         Thread thread = new UserInput(this);
         thread.start();
-    }
-
-    /* STARTS A ROUND */
-    public void start2() {
-        shuffle();
-        turnStart = (int) (Math.random() * playerCount);
-        turn = turnStart;
-        traded = null;
-        waiting = -1;
-
-        for (int i = 0; i < playerCount; i++) {
-            if(turn % playerCount == 0){
-                //Generate the buttons
-                //Wait for the player to click
-                //if trade, call trade
-                //if stay, increment turn
-                //Thread thread = new UserInput(this);
-                //thread.start();
-
-                System.out.println("PLAYERS TURN");
-                waiting = 0;
-                playersTurn = true;
-                //while (waiting == 0);
-                if (waiting == 1) {
-                    turnOrder[turn].trade(turnOrder[turn].getCard(), traded, turnOrder, turn);
-                }
-                else if (waiting == 2) {
-                    traded = null;
-                }
-                //try {
-                //    thread.join();
-                //} catch (InterruptedException e) {
-                //    throw new RuntimeException(e);
-                //}
-                turn = (turn + 1) % playerCount;
-                waiting = -1;
-
-            }else {
-                turnOrder[turn].play(traded, turnOrder, turn);
-                turn = (turn + 1) % playerCount;
-                playersTurn = false;
-                System.out.println("NOT PLAYERS TURN");
-                ///TimeUnit.SECONDS.sleep(1);
-                try {
-                    sleep(5000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
     }
 
 
@@ -146,7 +97,6 @@ public class GameSystem {
 
         //Check if the main player has won
         if(playerCount == 1){
-            //Player wins
             gameOver = 2;
         }
     }
@@ -159,6 +109,7 @@ public class GameSystem {
     public void setWaiting(int var) { waiting = var; }
     public Player[] getTurnOrder() { return turnOrder; }
     public int getTurn() { return turn; }
+    public void setTurn(int turn) { this.turn = turn; }
     public int getTurnStart() { return turnStart; }
     public PlayingCard getTraded() { return traded; }
 
@@ -171,8 +122,12 @@ public class GameSystem {
     /* DRAWING FUNCTION */
     public void draw(Graphics g, double scale, int offsetX, int offsetY) {
         if (gameOver == 0) {
-            for (int i = 0; i < playerCount; i++) {
-                getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY);
+            getPlayer(0).draw(100, 100, g, scale, offsetX, offsetY, Color.GREEN);
+            for (int i = 1; i < playerCount; i++) {
+                if (i == turn)
+                    getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.RED);
+                else
+                    getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.BLUE);
             }
         }
         else { // game over screens
