@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
-public class ChaseTheAce extends JFrame implements KeyListener {
+public class ChaseTheAce extends JFrame implements KeyListener, PlayerChoiceRequester {
 
     private GameSystem system;
     private int screenWidth = 1120, screenHeight = 630;

@@ -10,7 +10,7 @@ public class UserInput extends Thread {
     public void run() {
         int turn = system.getTurn();
         Player turnOrder[] = system.getTurnOrder();
-        PlayingCard traded = system.getTraded();
+        PlayingCard traded = null;
         int turnStart = system.getTurnStart();
         int playerCount = system.getPlayerCount();
 
@@ -34,7 +34,7 @@ public class UserInput extends Thread {
                     System.out.println("waiting");
                 }
                 if (system.getWaiting() == 1) {
-                    system.getTurnOrder()[turn].trade(turnOrder[turn].getCard(), traded, turnOrder, turn);
+                    turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1);
                 }
                 else if (system.getWaiting() == 2) {
                     traded = null;
@@ -44,7 +44,7 @@ public class UserInput extends Thread {
 
             }else {
                 system.setTurn(turn);
-                turnOrder[turn].play(traded, turnOrder, turn);
+                turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0);
                 turn = (turn + 1) % playerCount;
                 //playersTurn = false;
                 System.out.println("NOT PLAYERS TURN");

@@ -70,6 +70,7 @@ public class GameSystem {
     public void endRound() {
 
         //Determine what the lowest card is
+        System.out.println("Ending Round...");
         int lowestRank = 13;
         for (int i = 0; i < playerCount; i++) {
             if (turnOrder[i].getCard().getRank() < lowestRank) {
@@ -82,15 +83,16 @@ public class GameSystem {
             if (turnOrder[i].getCard().getRank() == lowestRank) {
 
                 //End the game if the main player is eliminated
-                if(i == 0){
+                if(i == 0) {
                     //Game Over
                     gameOver = 1;
-                }
 
-                //Eliminate a player by shifting all players down
-                for (int j = i; j < playerCount - 1; j++) {
-                    turnOrder[j] = turnOrder[j + 1];
-                    playerCount--;
+                    //Eliminate a player by shifting all players down
+                }else{
+                    for (int j = i; j < playerCount - 1; j++) {
+                        turnOrder[j] = turnOrder[j + 1];
+                        playerCount--;
+                    }
                 }
             }
         }
