@@ -118,6 +118,8 @@ public class ChaseTheAce extends JFrame implements KeyListener {
             PlayingCard card = new PlayingCard();
             system.draw(g, scale, offsetX, offsetY);
 
+            //g.drawImage(bufferImage, 0, 0, this);
+
             repaint();
 
             //if (test == 1)
