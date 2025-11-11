@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.ImageObserver;
 
 import static java.lang.Thread.sleep;
 
@@ -122,14 +123,15 @@ public class GameSystem {
 
 
     /* DRAWING FUNCTION */
-    public void draw(Graphics g, double scale, int offsetX, int offsetY) {
+    public void draw(Graphics g, double scale, int offsetX, int offsetY, ImageObserver obs) {
         if (gameOver == 0) {
-            getPlayer(0).draw(100, 100, g, scale, offsetX, offsetY, Color.GREEN);
+            getPlayer(0).draw(100, 100, g, scale, offsetX, offsetY, Color.GREEN, obs);
+            getPlayer(0).getCard().draw(450, 250, g, scale, offsetX, offsetY, obs);
             for (int i = 1; i < playerCount; i++) {
                 if (i == turn)
-                    getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.RED);
+                    getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.RED, obs);
                 else
-                    getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.BLUE);
+                    getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.BLUE, obs);
             }
         }
         else { // game over screens

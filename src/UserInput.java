@@ -8,16 +8,12 @@ public class UserInput extends Thread {
 
     @Override
     public void run() {
-        int turn = system.getTurn();
         Player turnOrder[] = system.getTurnOrder();
         PlayingCard traded = null;
-        int turnStart = system.getTurnStart();
         int playerCount = system.getPlayerCount();
-
+        int turnStart = (int) (Math.random() * playerCount);
+        int turn = turnStart;
         system.shuffle();
-        turnStart = (int) (Math.random() * playerCount);
-        turn = turnStart;
-        traded = null;
 
         for (int i = 0; i < playerCount; i++) {
             if(turn % playerCount == 0){
@@ -29,9 +25,8 @@ public class UserInput extends Thread {
                 system.setTurn(turn);
                 System.out.println("PLAYERS TURN");
                 system.setWaiting(0);
-                //playersTurn = true;
                 while (system.getWaiting() == 0) {
-                    System.out.println("waiting");
+                    System.out.println(".");
                 }
                 if (system.getWaiting() == 1) {
                     turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1);
@@ -51,7 +46,6 @@ public class UserInput extends Thread {
                 }
                 turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0);
                 turn = (turn + 1) % playerCount;
-                //playersTurn = false;
                 System.out.println("NOT PLAYERS TURN");
                 try {
                     sleep(2500);
