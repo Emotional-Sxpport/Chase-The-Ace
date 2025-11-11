@@ -20,7 +20,7 @@ public class PlayingCard {
     public PlayingCard() {
         suit = 0;
         rank = 0;
-        name = "src/resources/images/cards/" + suits[suit%2] + ranks[rank] + ".png";
+        name = "src/resources/images/cards/" + suits[suit] + ranks[rank] + ".png";
         try {
             image = ImageIO.read(new File(name));
         } catch (IOException e) {
@@ -38,7 +38,7 @@ public class PlayingCard {
     public void randomize() {
         suit = (int) (Math.random() * 4);
         rank = (int) (Math.random() * 13);
-        name = "src/resources/images/cards/" + suits[suit%2] + ranks[rank] + ".png";
+        name = "src/resources/images/cards/" + suits[suit] + ranks[rank] + ".png";
         try {
             image = ImageIO.read(new File(name));
         } catch (IOException e) {
