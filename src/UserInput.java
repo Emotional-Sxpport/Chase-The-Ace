@@ -9,7 +9,7 @@ public class UserInput extends Thread {
     @Override
     public void run() {
         Player turnOrder[] = system.getTurnOrder();
-        PlayingCard traded = null;
+        int traded = -1;
         int playerCount = system.getPlayerCount();
         int turnStart = (int) (Math.random() * playerCount);
         int turn = turnStart;
@@ -37,7 +37,7 @@ public class UserInput extends Thread {
                     turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1, system.getPlayerCount());
                 }
                 else if (system.getWaiting() == 2) {
-                    traded = null;
+                    traded = -1;
                 }
                 turn = (turn + 1) % playerCount;
 

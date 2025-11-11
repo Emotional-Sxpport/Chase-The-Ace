@@ -90,14 +90,14 @@ public class GameSystem {
 
                     //Eliminate a player by shifting all players down
                 }else{
-                    if(i == playerCount - 1){
+                    /*if(i == playerCount - 1){
                         playerCount--;
                         break;
                     }
-                    for (int j = i; j < playerCount - 1; j++) {
+                    for (int j = i; j < playerCount - 2; j++) {
                         turnOrder[j] = turnOrder[j + 1];
-                        playerCount--;
-                    }
+                    }*/
+                    playerCount--;
                 }
             }
         }
