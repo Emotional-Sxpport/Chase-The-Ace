@@ -27,6 +27,11 @@ public class UserInput extends Thread {
                 system.setWaiting(0);
                 while (system.getWaiting() == 0) {
                     System.out.println(".");
+                    try {
+                        sleep(50);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
                 if (system.getWaiting() == 1) {
                     turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1);

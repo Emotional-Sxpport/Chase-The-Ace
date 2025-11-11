@@ -131,6 +131,11 @@ public class ChaseTheAce extends JFrame implements KeyListener, PlayerChoiceRequ
             PlayingCard card = new PlayingCard();
             system.draw(g, scale, offsetX, offsetY, this);
 
+            try {
+                sleep(50);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             repaint();
         }
     }
