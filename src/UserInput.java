@@ -34,7 +34,7 @@ public class UserInput extends Thread {
                     }
                 }
                 if (system.getWaiting() == 1) {
-                    turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1);
+                    turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1, system.getPlayerCount());
                 }
                 else if (system.getWaiting() == 2) {
                     traded = null;
@@ -49,7 +49,7 @@ public class UserInput extends Thread {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0);
+                turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0, system.getPlayerCount());
                 turn = (turn + 1) % playerCount;
                 System.out.println("NOT PLAYERS TURN");
                 try {
