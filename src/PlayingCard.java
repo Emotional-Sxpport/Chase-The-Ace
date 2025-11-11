@@ -27,7 +27,7 @@ public class PlayingCard {
             e.printStackTrace();
         }
         try {
-            fourHearts = ImageIO.read(new File("src/resources/images/cards/H4.png")); // Replace with your image path
+            fourHearts = ImageIO.read(new File("src/resources/images/cards/H4.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,12 +55,6 @@ public class PlayingCard {
 
     /* DRAW FUNCTION */
     public void draw(int x, int y, Graphics g, double scale, int offsetX, int offsetY, ImageObserver obs) {
-        //g.setColor(Color.GREEN);
         g.drawImage(image, offsetX + (int)(x*scale), offsetY + (int)(y*scale), (int) (200 * scale), (int) (300 * scale), obs);
-        //g.fillRect(offsetX + (int)(x*scale), offsetY + (int)(y*scale), (int)(100*scale), (int)(150*scale));
-        //g.setColor(Color.WHITE);
-        //g.setFont(new Font("Arial", Font.PLAIN, (int)(32*scale)));
-        //g.drawString(ranks[getRank()], offsetX + (int) ((x + 15) * scale), offsetY + (int) ((y + 47) * scale));
-        //g.drawString(suits[getSuit()], offsetX + (int) ((x + 15) * scale), offsetY + (int) ((y + 87) * scale));
     }
 }
