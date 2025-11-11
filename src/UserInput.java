@@ -8,16 +8,12 @@ public class UserInput extends Thread {
 
     @Override
     public void run() {
-        int turn = system.getTurn();
         Player turnOrder[] = system.getTurnOrder();
         PlayingCard traded = null;
-        int turnStart = system.getTurnStart();
         int playerCount = system.getPlayerCount();
-
+        int turnStart = (int) (Math.random() * playerCount);
+        int turn = turnStart;
         system.shuffle();
-        turnStart = (int) (Math.random() * playerCount);
-        turn = turnStart;
-        traded = null;
 
         for (int i = 0; i < playerCount; i++) {
             if(turn % playerCount == 0){
@@ -29,12 +25,16 @@ public class UserInput extends Thread {
                 system.setTurn(turn);
                 System.out.println("PLAYERS TURN");
                 system.setWaiting(0);
-                //playersTurn = true;
                 while (system.getWaiting() == 0) {
-                    System.out.println("waiting");
+                    System.out.println(".");
+                    try {
+                        sleep(50);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
                 if (system.getWaiting() == 1) {
-                    turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1, system.getPlayerCount());
+                    turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1);
                 }
                 else if (system.getWaiting() == 2) {
                     traded = null;
@@ -44,17 +44,19 @@ public class UserInput extends Thread {
 
             }else {
                 system.setTurn(turn);
-                turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0, system.getPlayerCount());
-                turn = (turn + 1) % playerCount;
-                //playersTurn = false;
-                System.out.println("NOT PLAYERS TURN");
                 try {
-                    sleep(3000);
+                    sleep(500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                //system.setTurn(turn);
-                ///TimeUnit.SECONDS.sleep(1);
+                turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0);
+                turn = (turn + 1) % playerCount;
+                System.out.println("NOT PLAYERS TURN");
+                try {
+                    sleep(2500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         system.endRound();

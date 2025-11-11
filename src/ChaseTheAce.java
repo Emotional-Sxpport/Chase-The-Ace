@@ -1,5 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +17,6 @@ import static java.lang.Thread.sleep;
 public class ChaseTheAce extends JFrame implements KeyListener, PlayerChoiceRequester {
 
     private GameSystem system;
-    private int screenWidth = 1120, screenHeight = 630;
     private int initWidth = 1120, initHeight = 630;
 
     private JRadioButton tradeButton = null;
@@ -25,11 +28,13 @@ public class ChaseTheAce extends JFrame implements KeyListener, PlayerChoiceRequ
     private volatile String selectedChoice = null;
     private volatile CountDownLatch choiceLatch = null;
 
+    private BufferedImage image;
+
 
     /* CREATES THE PANEL */
     public ChaseTheAce() {
         setTitle("Chase the Ace");
-        setSize(screenWidth, screenHeight);
+        setSize(initWidth, initHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
@@ -77,9 +82,10 @@ public class ChaseTheAce extends JFrame implements KeyListener, PlayerChoiceRequ
             // hide controls and release waiting thread
             SwingUtilities.invokeLater(() -> controlsPanel.setVisible(false));
             choiceLatch.countDown();
+
         });
 
-        panel.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        panel.setPreferredSize(new Dimension(initWidth, initHeight));
         panel.setLayout(new BorderLayout()); // allow adding controls
         panel.add(controlsPanel, BorderLayout.SOUTH);
 
@@ -87,6 +93,12 @@ public class ChaseTheAce extends JFrame implements KeyListener, PlayerChoiceRequ
         setVisible(true);
         panel.requestFocusInWindow();
         panel.addKeyListener(this);
+
+        try {
+            image = ImageIO.read(new File("src/resources/images/table.jpeg")); // Replace with your image path
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -115,16 +127,16 @@ public class ChaseTheAce extends JFrame implements KeyListener, PlayerChoiceRequ
 
             g.setColor(Color.WHITE);
             g.fillRect(offsetX, offsetY, (int) (initWidth * scale), (int) (initHeight * scale));
+            g.drawImage(image, offsetX, offsetY, (int) (initWidth * scale), (int) (initHeight * scale), this);
             PlayingCard card = new PlayingCard();
-            system.draw(g, scale, offsetX, offsetY);
+            system.draw(g, scale, offsetX, offsetY, this);
 
-            //g.drawImage(bufferImage, 0, 0, this);
-
+            try {
+                sleep(50);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             repaint();
-
-            //if (test == 1)
-            //card.draw(200, 200, g, scale, offsetX, offsetY);
-
         }
     }
 
