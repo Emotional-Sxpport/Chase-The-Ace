@@ -89,6 +89,10 @@ public class GameSystem {
 
                     //Eliminate a player by shifting all players down
                 }else{
+                    if(i == playerCount - 1){
+                        playerCount--;
+                        break;
+                    }
                     for (int j = i; j < playerCount - 1; j++) {
                         turnOrder[j] = turnOrder[j + 1];
                         playerCount--;
@@ -100,6 +104,8 @@ public class GameSystem {
         //Check if the main player has won
         if(playerCount == 1){
             gameOver = 2;
+        } else {
+            start();
         }
     }
 

@@ -32,17 +32,17 @@ public class Player {
 
 
     /* PLAYER MAKES THEIR TURN */
-    public void play(PlayingCard othercard, Player[] turnOrder, int currentPlayer, int initialP, int isUser){
+    public void play(PlayingCard othercard, Player[] turnOrder, int currentPlayer, int initialP, int isUser, int pCount){
         //logic for their decision to stay or trade
 
         if(isUser == 1) {
-            trade(playingCard, othercard, turnOrder, (currentPlayer+1)%4, initialP);
+            trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP);
 
             //If they weren't traded with, just base their decision on card rank
         }else if(othercard == null){
             if(playingCard.getRank() < 6){
                 //trade
-                trade(playingCard, othercard, turnOrder, (currentPlayer+1)%4, initialP);
+                trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP);
             }else{
                 //stay
                 othercard = null;
@@ -51,7 +51,7 @@ public class Player {
         //If they were traded with, consider their rank to the previous one
         }else if(othercard.getRank() > this.playingCard.getRank() && playingCard.getRank() < 6){
             //trade
-            trade(playingCard, othercard, turnOrder, (currentPlayer+1)%4, initialP);
+            trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP);
         } else {
             //stay
             othercard = null;
