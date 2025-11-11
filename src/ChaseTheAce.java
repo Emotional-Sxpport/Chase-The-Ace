@@ -95,7 +95,7 @@ public class ChaseTheAce extends JFrame implements KeyListener, PlayerChoiceRequ
         panel.addKeyListener(this);
 
         try {
-            image = ImageIO.read(new File("src/resources/images/table.jpeg")); // Replace with your image path
+            image = ImageIO.read(new File("src/resources/images/background.png")); // Replace with your image path
         } catch (IOException e) {
             e.printStackTrace();
         }
