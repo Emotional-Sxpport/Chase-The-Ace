@@ -14,9 +14,10 @@ public class CardFlipAnimation extends Thread {
     private int width = 62;
     private double scale;
     private boolean running;
+    private GameSystem system;
 
 
-    public CardFlipAnimation(Graphics g, BufferedImage card, int x, int y, double scale, int offsetX, int offsetY, ImageObserver obs) throws IOException {
+    public CardFlipAnimation(Graphics g, BufferedImage card, int x, int y, double scale, int offsetX, int offsetY, ImageObserver obs, GameSystem system) throws IOException {
         this.g = g;
         cardFace = card;
         cardBack = ImageIO.read(new File("src/resources/images/cards/card_back.png"));
@@ -27,6 +28,7 @@ public class CardFlipAnimation extends Thread {
         this.offsetY = offsetY;
         this.scale = scale;
         running = true;
+        this.system = system;
     }
 
     public void setRunning(boolean running) {
@@ -35,16 +37,23 @@ public class CardFlipAnimation extends Thread {
 
     public void run() {
         int i = 0;
-        while (running) {
+        while (i < 40) {
             if (width >= 0) {
                 g.drawImage(cardBack, offsetX + (int) (x * scale), offsetY + (int) (y * scale), (int) (width * scale), (int) (90 * scale), obs);
+                width = (int) Math.sin(i);
+                i++;
             }
-            else if (width < 0 && width > -62) {
+            else if (width > -62) {
                 g.drawImage(cardBack, offsetX + (int)(x*scale), offsetY + (int)(y*scale), (int) (-1 * width * scale), (int) (90 * scale), obs);
+                width = (int) Math.sin(i);
+                i++;
             }
             else {
                 g.drawImage(cardBack, offsetX + (int)(x*scale), offsetY + (int)(y*scale), (int) (62 * scale), (int) (90 * scale), obs);
+                width = -62;
+                i++;
             }
+
 
             try {
                 sleep(100);

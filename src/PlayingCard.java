@@ -51,6 +51,7 @@ public class PlayingCard {
     public int getSuit() { return suit; }
     public int getRank() { return rank; }
     public int getValue() { return 4*suit+rank; }
+    public BufferedImage getImage() { return image; }
 
 
     /* DRAW FUNCTION */

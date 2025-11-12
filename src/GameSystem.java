@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageObserver;
+import java.io.IOException;
 
 import static java.lang.Thread.sleep;
 
@@ -101,8 +102,6 @@ public class GameSystem {
                 }
             }
         }
-
-        //Check if the main player has won
         if(playerCount == 1){
             gameOver = 2;
         } else {
