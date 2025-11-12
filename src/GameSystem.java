@@ -16,6 +16,8 @@ public class GameSystem {
     private boolean playersTurn;
     private int waiting;
     public PlayingCard traded;
+    private boolean showingCards, threadNotMade;
+    private int iterator;
 
 
     /* INITIALIZES VARIABLES */
@@ -25,6 +27,7 @@ public class GameSystem {
         turnOrder = new Player[playerCount];
         deckCard = new PlayingCard();
         gameOver = 0;
+        iterator = -1;
 
         for(int i = 0; i < 52; i++) { availableCards[i] = true; }
         for (int i = 0; i < playerCount; i++) { turnOrder[i] = new Player(); }
@@ -44,6 +47,7 @@ public class GameSystem {
 
     /* STARTS A ROUND */
     public void start() {
+        iterator = -10;
         Thread thread = new UserInput(this);
         thread.start();
     }
@@ -70,7 +74,6 @@ public class GameSystem {
 
     /* ELIMINATIONS */
     public void endRound() {
-
         //Determine what the lowest card is
         System.out.println("Ending Round...");
         int lowestRank = 13;
@@ -120,15 +123,12 @@ public class GameSystem {
     public void setTurn(int turn) { this.turn = turn; }
     public int getTurnStart() { return turnStart; }
     public PlayingCard getTraded() { return traded; }
-
-
-    public void test() {
-        gameOver = 1;
-    }
+    public void setGameOver(int gameOver) { this.gameOver = gameOver; }
+    public void setIterator(int iterator) { this.iterator = iterator; }
 
 
     /* DRAWING FUNCTION */
-    public void draw(Graphics g, double scale, int offsetX, int offsetY, ImageObserver obs) {
+    public void draw(Graphics g, double scale, int offsetX, int offsetY, ImageObserver obs) throws IOException {
         if (gameOver == 0) {
             getPlayer(0).draw(100, 100, g, scale, offsetX, offsetY, Color.GREEN, obs);
             getPlayer(0).getCard().draw(450, 250, g, scale, offsetX, offsetY, obs);
@@ -137,6 +137,14 @@ public class GameSystem {
                     getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.RED, obs);
                 else
                     getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.BLUE, obs);
+            }
+
+            if (iterator > -1) {
+                for (int i = 0; i < playerCount; i++) {
+                    getPlayer(i).getCard().drawFlip(150 + 150*i, 100, g, scale, offsetX, offsetY, 93*Math.cos(iterator/7.0), obs);
+                }
+                if (iterator < 22)
+                    iterator++;
             }
         }
         else { // game over screens
