@@ -28,7 +28,6 @@ public class UserInput extends Thread {
                 System.out.println("PLAYERS TURN");
                 system.setWaiting(0);
                 while (system.getWaiting() == 0) {
-                    System.out.println(".");
                     try {
                         sleep(50);
                     } catch (InterruptedException e) {
@@ -42,7 +41,7 @@ public class UserInput extends Thread {
                 }
                 system.setPrevCard(turnOrder[0].getCard());
                 if (system.getWaiting() == 1) {
-                    turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1, system.getPlayerCount(), system.getDeckCard(), system);
+                    turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1, system.getPlayerCount(), system);
                     if (turnOrder[(turn+1)%playerCount].getCard().getRank() != 12)
                         system.setItMove(0);
                 }
@@ -60,7 +59,7 @@ public class UserInput extends Thread {
                     throw new RuntimeException(e);
                 }
                 system.setPrevCard(turnOrder[0].getCard());
-                turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0, system.getPlayerCount(), system.getDeckCard(), system);
+                turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0, system.getPlayerCount(), system);
                 turn = (turn + 1) % playerCount;
                 System.out.println("NOT PLAYERS TURN");
                 try {

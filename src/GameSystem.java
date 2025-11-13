@@ -96,7 +96,7 @@ public class GameSystem {
                     //Game Over
                     gameOver = 1;
 
-                    //Eliminate a player by shifting all players down
+                //Eliminate a player by shifting all players down
                 }else{
                     Player[] copy = new Player[playerCount-1];
                     for(int j = 0; j < playerCount-1; j++){
@@ -104,15 +104,6 @@ public class GameSystem {
                             copy[j] = turnOrder[i];
                         }
                     }
-                    //turnOrder = ArrayUtils.removeElement(turnOrder, i);
-                    /*if(i == playerCount - 1){
-                        playerCount--;
-                        break;
-                    }
-                    for (int j = i; j < playerCount - 2; j++) {
-                        turnOrder[j] = turnOrder[j + 1];
-                    }*/
-                    //turnOrder[playerCount - 1] = null;
                     playerCount--;
                 }
             }
@@ -153,7 +144,6 @@ public class GameSystem {
                     prevCard.draw(450, 650 - (int)(400 *Math.cos(itMove/10.0)), g, scale, offsetX, offsetY, obs);
                 else
                     getPlayer(0).getCard().draw(450, 650 - (int)(400 *Math.cos(itMove/10.0 + 3.14)), g, scale, offsetX, offsetY, obs);
-                System.out.println("test: " + itMove + ", " + 400*Math.sin(itMove)/10.0 + 3.14);
                 if (itMove < 32)
                     itMove++;
                 else
