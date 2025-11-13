@@ -11,7 +11,7 @@ import java.io.IOException;
 public class PlayingCard {
     private int suit; // 0-3
     private int rank; // 0-12
-    private BufferedImage image, fourHearts;
+    private BufferedImage image, back;
     private String[] suits = {"H", "D", "C", "S"};
     private String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
     private String name;
@@ -27,7 +27,7 @@ public class PlayingCard {
             e.printStackTrace();
         }
         try {
-            fourHearts = ImageIO.read(new File("src/resources/images/cards/H4.png"));
+            back = ImageIO.read(new File("src/resources/images/cards/card_back.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,5 +57,14 @@ public class PlayingCard {
     /* DRAW FUNCTION */
     public void draw(int x, int y, Graphics g, double scale, int offsetX, int offsetY, ImageObserver obs) {
         g.drawImage(image, offsetX + (int)(x*scale), offsetY + (int)(y*scale), (int) (200 * scale), (int) (300 * scale), obs);
+    }
+
+    public void drawFlip(int x, int y, Graphics g, double scale, int offsetX, int offsetY, double width, ImageObserver obs) {
+        if (width > 0)
+            g.drawImage(back, offsetX + (int)(x*scale) - (int)(width * scale)/2, offsetY + (int)(y*scale), (int) (width * scale), (int) (135 * scale), obs);
+        else if (width > -93)
+            g.drawImage(image, offsetX + (int)(x*scale) - (int)(width * scale)/-2, offsetY + (int)(y*scale), (int) (-1 * width * scale), (int) (135 * scale), obs);
+        else
+            g.drawImage(image, offsetX + (int)(x*scale), offsetY + (int)(y*scale), (int) (93 * scale), (int) (135 * scale), obs);
     }
 }

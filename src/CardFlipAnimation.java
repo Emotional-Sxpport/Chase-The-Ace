@@ -17,9 +17,17 @@ public class CardFlipAnimation extends Thread {
     private GameSystem system;
 
 
-    public CardFlipAnimation(Graphics g, BufferedImage card, int x, int y, double scale, int offsetX, int offsetY, ImageObserver obs, GameSystem system) throws IOException {
+    /*
+        NOTE: This class does fuck all. It didn't work and still doesn't work. I
+        found a work around so it's completely and utterly worthless. It's not gone
+        yet because I don't know if deleting it will be weird with our project but
+        it will be the next to go.
+     */
+
+
+    public CardFlipAnimation(Graphics g, int x, int y, double scale,  int offsetX, int offsetY, PlayingCard card, ImageObserver obs, GameSystem system) throws IOException {
         this.g = g;
-        cardFace = card;
+        cardFace = card.getImage();
         cardBack = ImageIO.read(new File("src/resources/images/cards/card_back.png"));
         this.x = x;
         this.y = y;
@@ -61,6 +69,11 @@ public class CardFlipAnimation extends Thread {
                 throw new RuntimeException(e);
             }
         }
+
+        if (system.getPlayerCount() == 1)
+            system.setGameOver(2);
+        else
+            system.start();
 
     }
 }

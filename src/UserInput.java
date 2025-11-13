@@ -59,8 +59,9 @@ public class UserInput extends Thread {
                 }
             }
         }
+        system.setIterator(0);
         try {
-            sleep(1000);
+            sleep(3500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
