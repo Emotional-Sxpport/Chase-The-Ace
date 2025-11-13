@@ -180,7 +180,7 @@ public class GameSystem {
             g.setColor(Color.BLACK);
             g.fillRect(offsetX, offsetY, (int) (1120 * scale), (int) (630 * scale));
             g.setColor(Color.WHITE);
-            g.setFont(new Font("Arial", Font.PLAIN, (int)(30*scale)));
+            g.setFont(new Font("SansSerif", Font.PLAIN, (int)(30*scale)));
             if (gameOver == 1) {
                 g.drawString("You Lost!", offsetX + (int) (500 * scale), offsetY + (int) (300 * scale));
                 g.drawString("Press ENTER to play again", offsetX + (int)(350*scale), offsetY + (int)(350*scale));
@@ -208,7 +208,7 @@ public class GameSystem {
                     start();
                 }
             }else if (gameOver == 3) {
-                g.drawString("Welcome to Chase the Ace", offsetX + (int) (500 * scale), offsetY + (int) (300 * scale));
+                g.drawString("Welcome to Chase the Ace", offsetX + (int) (420 * scale), offsetY + (int) (300 * scale));
                 g.drawString("Press ENTER to begin", offsetX + (int) (450 * scale), offsetY + (int) (350 * scale));
                 if(waiting == 1) {
                     //start game
