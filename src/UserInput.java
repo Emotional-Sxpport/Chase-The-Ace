@@ -35,6 +35,7 @@ public class UserInput extends Thread {
                 }
                 if (system.getWaiting() == 1) {
                     turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1, system.getPlayerCount());
+                    system.setItMove(0);
                 }
                 else if (system.getWaiting() == 2) {
                     traded = -1;
