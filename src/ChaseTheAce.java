@@ -89,8 +89,10 @@ public class ChaseTheAce extends JFrame implements KeyListener{
                 throw new RuntimeException(e);
             }
 
+            g.setColor(Color.BLACK);
+            g.fillRect(offsetX, offsetY+(int)(initHeight*scale), (int) (initWidth * scale), (int) (initHeight * scale));
             try {
-                sleep(50);
+                sleep(25);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
