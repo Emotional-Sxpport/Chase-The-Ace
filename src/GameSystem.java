@@ -87,26 +87,31 @@ public class GameSystem {
             }
         }
 
-        //Eliminate player(s) with the lowest card
+        //Remove lives from the player(s) with the lowest card(s)
         for (int i = 0; i < playerCount; i++) {
             if (turnOrder[i].getCard().getRank() == lowestRank) {
+                turnOrder[i].loseLife();
+                if (turnOrder[i].getLives() <= 0) {
 
-                //End the game if the main player is eliminated
-                if(i == 0) {
-                    //Game Over
-                    gameOver = 1;
 
-                //Eliminate a player by shifting all players down
-                }else{
-                    Player[] copy = new Player[playerCount-1];
-                    for(int j = 0; j < playerCount-1; j++){
-                        if(j!=i){
-                            copy[j] = turnOrder[i];
+                    //End the game if the main player is eliminated
+                    if (i == 0) {
+                        //Game Over
+                        gameOver = 1;
+
+                        //Eliminate a player by shifting all players down
+                    } else {
+                        Player[] copy = new Player[playerCount - 1];
+                        for (int j = 0; j < playerCount - 1; j++) {
+                            if (j != i) {
+                                copy[j] = turnOrder[i];
+                            }
                         }
+                        playerCount--;
                     }
-                    playerCount--;
                 }
             }
+
         }
         if(playerCount == 1){
             gameOver = 2;

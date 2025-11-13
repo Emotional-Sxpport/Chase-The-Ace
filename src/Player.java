@@ -3,16 +3,21 @@ import java.awt.image.ImageObserver;
 
 public class Player {
     private PlayingCard playingCard;
+    private int lives;
 
     /* CONSTRUCTORS */
-    public Player() { playingCard = new PlayingCard(); }
+    public Player() {
+        playingCard = new PlayingCard();
+        lives = 3;
+    }
     public Player(PlayingCard playingCard) {
         this.playingCard = playingCard;
+        this.lives = 3;
     }
 
 
     /* PLAYER TRADES CARDS */
-    public void trade(PlayingCard mycard, int othercard, Player[] turnOrder, int nextPlayer, int initialP, GameSystem system){
+    public void trade(PlayingCard mycard, int othercard, Player[] turnOrder, int nextPlayer, int initialP, GameSystem system, int pCount, int currentPlayer){
         PlayingCard temp;
         if(nextPlayer == initialP) {
             //Generate new card
@@ -21,8 +26,8 @@ public class Player {
             int x=0;
             int y=0;
             while(y==0) {
-                for (int i = 0; i < turnOrder.length; i++) {
-                    if (temp2.equals(turnOrder[i])) {
+                for (int i = 0; i < pCount; i++) {
+                    if (temp2.equals(turnOrder[i].getCard()) && i != currentPlayer) {
                         x = 1;
                         break;
                     }
@@ -54,14 +59,14 @@ public class Player {
         //logic for their decision to stay or trade
 
         if(isUser == 1) {
-            trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system);
+            trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount, currentPlayer);
             return;
 
             //If they weren't traded with, just base their decision on card rank
         }else if(othercard == -1){
             if(playingCard.getRank() < 6){
                 //trade
-                trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system);
+                trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount, currentPlayer);
             }else{
                 //stay
                 othercard = -1;
@@ -70,7 +75,7 @@ public class Player {
         //If they were traded with, consider their rank to the previous one
         }else if(othercard > this.playingCard.getRank() && playingCard.getRank() < 6){
             //trade
-            trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system);
+            trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount, currentPlayer);
         } else {
             //stay
             othercard = -1;
@@ -81,6 +86,8 @@ public class Player {
     /* GET / SET FUNCTIONS */
     public PlayingCard getCard() { return playingCard; }
     public void setCard(PlayingCard playingCard) { this.playingCard = playingCard; }
+    public void loseLife() { this.lives--; }
+    public int getLives() { return lives; }
 
 
     /* DRAW FUNCTION */
@@ -92,6 +99,7 @@ public class Player {
         g.fillRect(offsetX + (int) (x * scale), offsetY + (int) (y * scale), (int) (80 * scale), (int) (80 * scale));
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, (int)(16*scale)));
+        g.drawString("" + lives, offsetX + (int) ((x + 5) * scale), offsetY + (int) ((y + 45) * scale));
         g.drawString(ranks[getCard().getRank()] + " of", offsetX + (int) ((x + 5) * scale), offsetY + (int) ((y + 60) * scale));
         g.drawString(suits[getCard().getSuit()], offsetX + (int) ((x + 5) * scale), offsetY + (int) ((y + 75) * scale));
     }
