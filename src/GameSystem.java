@@ -144,6 +144,7 @@ public class GameSystem {
     public void draw(Graphics g, double scale, int offsetX, int offsetY, ImageObserver obs) throws IOException {
         if (gameOver == 0) {
 
+            // DRAWS THE USER'S CARD & ANIMATING IT
             getPlayer(0).draw(100, 100, g, scale, offsetX, offsetY, Color.GREEN, obs);
             if (itMove > -1) {
                 if (itMove < 14)
