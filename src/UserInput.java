@@ -34,7 +34,7 @@ public class UserInput extends Thread {
                     }
                 }
                 if (system.getWaiting() == 1) {
-                    turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1, system.getPlayerCount());
+                    turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1, system.getPlayerCount(), system.getDeckCard());
                     system.setItMove(0);
                 }
                 else if (system.getWaiting() == 2) {
@@ -50,7 +50,7 @@ public class UserInput extends Thread {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0, system.getPlayerCount());
+                turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0, system.getPlayerCount(), system.getDeckCard());
                 turn = (turn + 1) % playerCount;
                 System.out.println("NOT PLAYERS TURN");
                 try {

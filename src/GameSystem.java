@@ -1,7 +1,9 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
+//import java.util.ArrayUtils;
 
 import static java.lang.Thread.sleep;
 
@@ -95,6 +97,13 @@ public class GameSystem {
 
                     //Eliminate a player by shifting all players down
                 }else{
+                    Player[] copy = new Player[playerCount-1];
+                    for(int j = 0; j < playerCount-1; j++){
+                        if(j!=i){
+                            copy[j] = turnOrder[i];
+                        }
+                    }
+                    //turnOrder = ArrayUtils.removeElement(turnOrder, i);
                     /*if(i == playerCount - 1){
                         playerCount--;
                         break;
@@ -102,6 +111,7 @@ public class GameSystem {
                     for (int j = i; j < playerCount - 2; j++) {
                         turnOrder[j] = turnOrder[j + 1];
                     }*/
+                    //turnOrder[playerCount - 1] = null;
                     playerCount--;
                 }
             }
@@ -124,6 +134,7 @@ public class GameSystem {
     public void setTurn(int turn) { this.turn = turn; }
     public int getTurnStart() { return turnStart; }
     public PlayingCard getTraded() { return traded; }
+    public PlayingCard getDeckCard() { return deckCard; }
     public void setGameOver(int gameOver) { this.gameOver = gameOver; }
     public void setIterator(int iterator) { this.iterator = iterator; }
     public void setItMove(int itMove) { this.itMove = itMove; }
