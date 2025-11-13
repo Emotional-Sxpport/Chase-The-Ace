@@ -31,13 +31,13 @@ public class GameSystem {
         playerCount = 4;
         turnOrder = new Player[playerCount];
         deckCard = new PlayingCard();
-        gameOver = 0;
+        gameOver = 3;
         iterator = -1;
         itMove = -1;
 
         for(int i = 0; i < 52; i++) { availableCards[i] = true; }
         for (int i = 0; i < playerCount; i++) { turnOrder[i] = new Player(); }
-        start();
+        setWaiting(0);
     }
 
 
@@ -100,6 +100,8 @@ public class GameSystem {
                     if (i == 0) {
                         //Game Over
                         gameOver = 1;
+                        setWaiting(0);
+                        return;
 
                         //Eliminate a player by shifting all players down
                     } else {
@@ -115,7 +117,8 @@ public class GameSystem {
         }
         if(playerCount == 1){
             gameOver = 2;
-        } else {
+            setWaiting(0);
+        } else{
             start();
         }
     }
@@ -178,10 +181,46 @@ public class GameSystem {
             g.fillRect(offsetX, offsetY, (int) (1120 * scale), (int) (630 * scale));
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.PLAIN, (int)(30*scale)));
-            if (gameOver == 1)
-                g.drawString("You Lost!", offsetX + (int)(500*scale), offsetY + (int)(300*scale));
-            else if (gameOver == 2)
-                g.drawString("You Won!", offsetX + (int)(500*scale), offsetY + (int)(300*scale));
+            if (gameOver == 1) {
+                g.drawString("You Lost!", offsetX + (int) (500 * scale), offsetY + (int) (300 * scale));
+                g.drawString("Press ENTER to play again", offsetX + (int)(350*scale), offsetY + (int)(350*scale));
+                if (waiting == 1) {
+                    //reset game
+                    playerCount = 4;
+                    turnOrder = new Player[playerCount];
+                    for (int i = 0; i < playerCount; i++) {
+                        turnOrder[i] = new Player();
+                    }
+                    gameOver = 0;
+                    start();
+                }
+            }else if (gameOver == 2) {
+                g.drawString("You Won!", offsetX + (int) (500 * scale), offsetY + (int) (300 * scale));
+                g.drawString("Press ENTER to play again", offsetX + (int)(350*scale), offsetY + (int)(350*scale));
+                if (waiting == 1) {
+                    //reset game
+                    playerCount = 4;
+                    turnOrder = new Player[playerCount];
+                    for (int i = 0; i < playerCount; i++) {
+                        turnOrder[i] = new Player();
+                    }
+                    gameOver = 0;
+                    start();
+                }
+            }else if (gameOver == 3) {
+                g.drawString("Welcome to Chase the Ace", offsetX + (int) (500 * scale), offsetY + (int) (300 * scale));
+                g.drawString("Press ENTER to begin", offsetX + (int) (450 * scale), offsetY + (int) (350 * scale));
+                if(waiting == 1) {
+                    //start game
+                    playerCount = 4;
+                    turnOrder = new Player[playerCount];
+                    for (int i = 0; i < playerCount; i++) {
+                        turnOrder[i] = new Player();
+                    }
+                    gameOver = 0;
+                    start();
+                }
+            }
         }
     }
 }
