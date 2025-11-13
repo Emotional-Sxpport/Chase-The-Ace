@@ -3,7 +3,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
-//import java.util.ArrayUtils;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
@@ -102,11 +104,9 @@ public class GameSystem {
                         //Eliminate a player by shifting all players down
                     } else {
                         Player[] copy = new Player[playerCount - 1];
-                        for (int j = 0; j < playerCount - 1; j++) {
-                            if (j != i) {
-                                copy[j] = turnOrder[i];
-                            }
-                        }
+                        System.arraycopy(turnOrder, 0, copy, 0, i);
+                        System.arraycopy(turnOrder, i + 1, copy, i, playerCount - i - 1);
+                        turnOrder = copy;
                         playerCount--;
                     }
                 }
