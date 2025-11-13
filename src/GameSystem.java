@@ -14,6 +14,7 @@ public class GameSystem {
     private int turnStart, turn, playerCount;
     private PlayingCard deckCard;
     public PlayingCard traded;
+    private PlayingCard prevCard;
 
     // just a ton of flags
     private int gameOver; // 0 for not over, 1 for loss, 2 for win
@@ -135,6 +136,7 @@ public class GameSystem {
     public int getTurnStart() { return turnStart; }
     public PlayingCard getTraded() { return traded; }
     public PlayingCard getDeckCard() { return deckCard; }
+    public void setPrevCard(PlayingCard prevCard) { this.prevCard = prevCard; }
     public void setGameOver(int gameOver) { this.gameOver = gameOver; }
     public void setIterator(int iterator) { this.iterator = iterator; }
     public void setItMove(int itMove) { this.itMove = itMove; }
@@ -148,7 +150,7 @@ public class GameSystem {
             getPlayer(0).draw(100, 100, g, scale, offsetX, offsetY, Color.GREEN, obs);
             if (itMove > -1) {
                 if (itMove < 14)
-                    getPlayer(0).getCard().draw(450, 650 - (int)(400 *Math.cos(itMove/10.0)), g, scale, offsetX, offsetY, obs);
+                    prevCard.draw(450, 650 - (int)(400 *Math.cos(itMove/10.0)), g, scale, offsetX, offsetY, obs);
                 else
                     getPlayer(0).getCard().draw(450, 650 - (int)(400 *Math.cos(itMove/10.0 + 3.14)), g, scale, offsetX, offsetY, obs);
                 System.out.println("test: " + itMove + ", " + 400*Math.sin(itMove)/10.0 + 3.14);

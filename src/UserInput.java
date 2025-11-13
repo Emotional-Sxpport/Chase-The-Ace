@@ -13,9 +13,11 @@ public class UserInput extends Thread {
         int playerCount = system.getPlayerCount();
         int turnStart = (int) (Math.random() * playerCount);
         int turn = turnStart;
+
         system.shuffle();
 
         for (int i = 0; i < playerCount; i++) {
+
             if(turn % playerCount == 0){
                 //Generate the buttons
                 //Wait for the player to click
@@ -33,9 +35,16 @@ public class UserInput extends Thread {
                         throw new RuntimeException(e);
                     }
                 }
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                system.setPrevCard(turnOrder[0].getCard());
                 if (system.getWaiting() == 1) {
                     turnOrder[turn].play(traded, turnOrder, turn, turnStart, 1, system.getPlayerCount(), system.getDeckCard(), system);
-                    system.setItMove(0);
+                    if (turnOrder[(turn+1)%playerCount].getCard().getRank() != 12)
+                        system.setItMove(0);
                 }
                 else if (system.getWaiting() == 2) {
                     traded = -1;
@@ -46,15 +55,16 @@ public class UserInput extends Thread {
             }else {
                 system.setTurn(turn);
                 try {
-                    sleep(500);
+                    sleep(1000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+                system.setPrevCard(turnOrder[0].getCard());
                 turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0, system.getPlayerCount(), system.getDeckCard(), system);
                 turn = (turn + 1) % playerCount;
                 System.out.println("NOT PLAYERS TURN");
                 try {
-                    sleep(2500);
+                    sleep(2000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
