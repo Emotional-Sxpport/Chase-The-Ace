@@ -28,7 +28,8 @@ public class GameSystem {
     // just a ton of flags
     private int gameOver; // 0 for not over, 1 for loss, 2 for win
     private int waiting;
-    private int iterator, itMove;
+    private int iterator, itMove, itShow;
+    private String message;
 
 
     /* INITIALIZES VARIABLES */
@@ -40,6 +41,7 @@ public class GameSystem {
         gameOver = 3;
         iterator = -1;
         itMove = -1;
+        itShow = -1;
 
         try {
             table = ImageIO.read(new File("src/resources/images/table.png"));
@@ -176,6 +178,8 @@ public class GameSystem {
     public void setGameOver(int gameOver) { this.gameOver = gameOver; }
     public void setIterator(int iterator) { this.iterator = iterator; }
     public void setItMove(int itMove) { this.itMove = itMove; }
+    public void setItShow(int itShow) { this.itShow = itShow; }
+    public void setMessage (String message) { this.message = message; }
     public void setLowestRank (int lowestRank) { this.lowestRank = lowestRank; }
 
     /* FONT CREATION */
@@ -208,6 +212,9 @@ public class GameSystem {
     public void draw(Graphics g, double scale, int offsetX, int offsetY, ImageObserver obs) throws IOException {
         if (gameOver == 0) {
 
+            FontLoaderExample f = new FontLoaderExample();
+            g.setFont(f.getCustomFont());
+
             for (int i = 0; i < getPlayer(0).getLives(); i++) {
                 g.drawImage(lives, offsetX + (int)((1019-73*i)*scale), offsetY + (int)(25*scale), (int) (66 * scale), (int) (66 * scale), obs);
             }
@@ -229,8 +236,6 @@ public class GameSystem {
 
             if (turn == 0) { // user's turn
                 if (waiting == 0) {
-                    FontLoaderExample f = new FontLoaderExample();
-                    g.setFont(f.getCustomFont());
                     g.drawString("Your Turn!", offsetX + (int) (500 * scale), offsetY + (int) (45 * scale));
                     g.drawString("[SPACE] to Stay", offsetX + (int) (890 * scale), offsetY + (int) (590 * scale));
                     g.drawString("[ENTER] to Trade", offsetX + (int) (890 * scale), offsetY + (int) (620 * scale));
@@ -263,6 +268,25 @@ public class GameSystem {
             if (lifeCount[3] > 1) g.drawImage(c2, offsetX + (int)(190*scale), offsetY + (int)(440*scale), (int) (27 * scale), (int) (63 * scale), obs);
             if (lifeCount[3] > 0) g.drawImage(c1, offsetX + (int)(170*scale), offsetY + (int)(470*scale), (int) (27 * scale), (int) (63 * scale), obs);
 
+            // DRAWS THE OPPONENTS' MESSAGES
+            if (itShow > -1) {
+                //g.drawString(message, offsetX + (int) (300 * scale), offsetY + (int) ((300-itShow) * scale));
+
+                if (getPlayer(turn).getId() == 1)
+                    g.drawString(message, offsetX + (int) (800 * scale), offsetY + (int) ((300-itShow) * scale));
+                else if (getPlayer(turn).getId() == 2)
+                    g.drawString(message, offsetX + (int) (450 * scale), offsetY + (int) ((250-itShow) * scale));
+                else if (getPlayer(turn).getId() == 3)
+                    g.drawString(message, offsetX + (int) (300 * scale), offsetY + (int) ((300-itShow) * scale));
+                else if (turn == 0) //(getPlayer(turn).getId() == 3)
+                    g.drawString(message, offsetX + (int) (600 * scale), offsetY + (int) ((400-itShow) * scale));
+
+                if (itShow > 20)
+                    itShow = -2;
+                itShow++;
+            }
+
+
             // DRAWS THE USER'S CARD & ANIMATING IT
             if (itMove > -1) {
                 if (itMove < 14)
@@ -284,8 +308,6 @@ public class GameSystem {
 
             // DRAWS CARD FLIP
             if (iterator > -1) {
-                FontLoaderExample f = new FontLoaderExample();
-                g.setFont(f.getCustomFont());
                 g.drawString("Revealing Cards!", offsetX + (int) (470 * scale), offsetY + (int) (45 * scale));
                 for (int i = 1; i < playerCount; i++) {
                     if (getPlayer(i).getId() == 1)

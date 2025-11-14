@@ -39,9 +39,15 @@ public class Player {
                 }
             }
             this.setCard(temp2);
+            if (nextPlayer != 1) {
+                system.setMessage("Draw");
+                system.setItShow(0);
+            }
             return -1;
         }else if(turnOrder[nextPlayer].getCard().getRank() == 12){
             //If the next player has a king, the trade is blocked
+            system.setMessage("King Blocks");
+            system.setItShow(0);
             return -1;
         }else {
             //Get next player's card
@@ -51,6 +57,10 @@ public class Player {
             this.setCard(temp);
             if (nextPlayer == 0)
                 system.setItMove(0);
+            if (nextPlayer != 1) {
+                system.setMessage("Steal");
+                system.setItShow(0);
+            }
             return othercard;
         }
     }
@@ -71,6 +81,10 @@ public class Player {
                 othercard = trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount);
             }else{
                 //stay
+                if (currentPlayer != 0) {
+                    system.setMessage("Stay");
+                    system.setItShow(0);
+                }
                 othercard = -1;
             }
 
@@ -80,6 +94,10 @@ public class Player {
             othercard = trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount);
         } else {
             //stay
+            if (currentPlayer != 0) {
+                system.setMessage("Stay");
+                system.setItShow(0);
+            }
             othercard = -1;
         }
         return othercard;

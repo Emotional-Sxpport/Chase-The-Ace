@@ -16,6 +16,12 @@ public class UserInput extends Thread {
 
         system.shuffle();
 
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         for (int i = 0; i < playerCount; i++) {
 
             if(turn % playerCount == 0){
