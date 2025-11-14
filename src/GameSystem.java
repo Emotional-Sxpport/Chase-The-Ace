@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -140,6 +141,31 @@ public class GameSystem {
     public void setIterator(int iterator) { this.iterator = iterator; }
     public void setItMove(int itMove) { this.itMove = itMove; }
 
+    /* FONT CREATION */
+    public class FontLoaderExample extends JPanel {
+        private Font customFont;
+
+        public FontLoaderExample() {
+            try (InputStream is = getClass().getResourceAsStream("resources/fonts/Minecraft.ttf")) {
+                // load font from classpath resource `\`/fonts/MyFont.ttf\``
+                Font f = Font.createFont(Font.TRUETYPE_FONT, is);
+                // register so it's available to the JVM
+                GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(f);
+                // derive a size (float) and style if needed
+                customFont = f.deriveFont(Font.PLAIN, 24f);
+                // optionally set as default for this component
+                setFont(customFont);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                // fallback to a logical font
+                customFont = new Font("Serif", Font.PLAIN, 24);
+            }
+        }
+
+        public Font getCustomFont() {
+            return customFont;
+        }
+    }
 
     /* DRAWING FUNCTION */
     public void draw(Graphics g, double scale, int offsetX, int offsetY, ImageObserver obs) throws IOException {
@@ -180,10 +206,11 @@ public class GameSystem {
             g.setColor(Color.BLACK);
             g.fillRect(offsetX, offsetY, (int) (1120 * scale), (int) (630 * scale));
             g.setColor(Color.WHITE);
-            g.setFont(new Font("SansSerif", Font.PLAIN, (int)(30*scale)));
+            FontLoaderExample f = new FontLoaderExample();
+            g.setFont(f.getCustomFont());
             if (gameOver == 1) {
                 g.drawString("You Lost!", offsetX + (int) (500 * scale), offsetY + (int) (300 * scale));
-                g.drawString("Press ENTER to play again", offsetX + (int)(350*scale), offsetY + (int)(350*scale));
+                g.drawString("Press ENTER to play again", offsetX + (int)(410*scale), offsetY + (int)(350*scale));
                 if (waiting == 1) {
                     //reset game
                     playerCount = 4;
@@ -196,7 +223,7 @@ public class GameSystem {
                 }
             }else if (gameOver == 2) {
                 g.drawString("You Won!", offsetX + (int) (500 * scale), offsetY + (int) (300 * scale));
-                g.drawString("Press ENTER to play again", offsetX + (int)(350*scale), offsetY + (int)(350*scale));
+                g.drawString("Press ENTER to play again", offsetX + (int)(410*scale), offsetY + (int)(350*scale));
                 if (waiting == 1) {
                     //reset game
                     playerCount = 4;
@@ -208,7 +235,7 @@ public class GameSystem {
                     start();
                 }
             }else if (gameOver == 3) {
-                g.drawString("Welcome to Chase the Ace", offsetX + (int) (420 * scale), offsetY + (int) (300 * scale));
+                g.drawString("Welcome to Chase the Ace", offsetX + (int) (430 * scale), offsetY + (int) (300 * scale));
                 g.drawString("Press ENTER to begin", offsetX + (int) (450 * scale), offsetY + (int) (350 * scale));
                 if(waiting == 1) {
                     //start game
