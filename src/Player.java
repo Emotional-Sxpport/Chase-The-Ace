@@ -17,7 +17,7 @@ public class Player {
 
 
     /* PLAYER TRADES CARDS */
-    public void trade(PlayingCard mycard, int othercard, Player[] turnOrder, int nextPlayer, int initialP, GameSystem system, int pCount, int currentPlayer){
+    public int trade(PlayingCard mycard, int othercard, Player[] turnOrder, int nextPlayer, int initialP, GameSystem system, int pCount){
         PlayingCard temp;
         if(nextPlayer == initialP) {
             //Generate new card
@@ -27,7 +27,7 @@ public class Player {
             int y=0;
             while(y==0) {
                 for (int i = 0; i < pCount; i++) {
-                    if (temp2.equals(turnOrder[i].getCard()) && i != currentPlayer) {
+                    if (temp2.equals(turnOrder[i].getCard())) {
                         x = 1;
                         break;
                     }
@@ -37,11 +37,10 @@ public class Player {
                 }
             }
             this.setCard(temp2);
-            return;
+            return -1;
         }else if(turnOrder[nextPlayer].getCard().getRank() == 12){
             //If the next player has a king, the trade is blocked
-            othercard = -1;
-            return;
+            return -1;
         }else {
             //Get next player's card
             temp = turnOrder[nextPlayer].getCard();
@@ -50,23 +49,24 @@ public class Player {
             this.setCard(temp);
             if (nextPlayer == 0)
                 system.setItMove(0);
+            return othercard;
         }
     }
 
 
     /* PLAYER MAKES THEIR TURN */
-    public void play(int othercard, Player[] turnOrder, int currentPlayer, int initialP, int isUser, int pCount, GameSystem system){
+    public int play(int othercard, Player[] turnOrder, int currentPlayer, int initialP, int isUser, int pCount, GameSystem system){
         //logic for their decision to stay or trade
 
         if(isUser == 1) {
-            trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount, currentPlayer);
-            return;
+            othercard = trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount);
+            return othercard;
 
             //If they weren't traded with, just base their decision on card rank
         }else if(othercard == -1){
             if(playingCard.getRank() < 6){
                 //trade
-                trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount, currentPlayer);
+                othercard = trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount);
             }else{
                 //stay
                 othercard = -1;
@@ -75,11 +75,12 @@ public class Player {
         //If they were traded with, consider their rank to the previous one
         }else if(othercard > this.playingCard.getRank() && playingCard.getRank() < 6){
             //trade
-            trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount, currentPlayer);
+            othercard = trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount);
         } else {
             //stay
             othercard = -1;
         }
+        return othercard;
     }
 
 
