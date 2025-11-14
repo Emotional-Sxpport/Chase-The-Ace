@@ -88,7 +88,7 @@ public class Player {
             }
 
         //If they were traded with, consider their rank to the previous one
-        }else if(othercard >= this.playingCard.getRank() && playingCard.getRank() < 6){
+        }else if(othercard >= playingCard.getRank() && playingCard.getRank() < 6){
             //trade
             othercard = trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount);
         } else {
