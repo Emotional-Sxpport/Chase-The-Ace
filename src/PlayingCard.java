@@ -56,7 +56,7 @@ public class PlayingCard {
 
     /* DRAW FUNCTION */
     public void draw(int x, int y, Graphics g, double scale, int offsetX, int offsetY, ImageObserver obs) {
-        g.drawImage(image, offsetX + (int)(x*scale), offsetY + (int)(y*scale), (int) (200 * scale), (int) (300 * scale), obs);
+        g.drawImage(image, offsetX + (int)(x*scale), offsetY + (int)(y*scale), (int) (170.5 * scale), (int) (247.5 * scale), obs);
     }
 
     public void drawFlip(int x, int y, Graphics g, double scale, int offsetX, int offsetY, double width, ImageObserver obs) {

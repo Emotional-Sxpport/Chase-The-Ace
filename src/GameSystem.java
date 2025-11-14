@@ -1,7 +1,10 @@
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ public class GameSystem {
     private PlayingCard deckCard;
     public PlayingCard traded;
     private PlayingCard prevCard;
+    private BufferedImage table, b1, b2, b3, lives;
 
     // just a ton of flags
     private int gameOver; // 0 for not over, 1 for loss, 2 for win
@@ -35,6 +39,16 @@ public class GameSystem {
         gameOver = 3;
         iterator = -1;
         itMove = -1;
+
+        try {
+            table = ImageIO.read(new File("src/resources/images/table.png"));
+            b1 = ImageIO.read(new File("src/resources/images/chars/body1.png"));
+            b2 = ImageIO.read(new File("src/resources/images/chars/body2.png"));
+            b3 = ImageIO.read(new File("src/resources/images/chars/body3.png"));
+            lives = ImageIO.read(new File("src/resources/images/lives.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         for(int i = 0; i < 52; i++) { availableCards[i] = true; }
         for (int i = 0; i < playerCount; i++) { turnOrder[i] = new Player(); }
@@ -171,19 +185,29 @@ public class GameSystem {
     public void draw(Graphics g, double scale, int offsetX, int offsetY, ImageObserver obs) throws IOException {
         if (gameOver == 0) {
 
-            // DRAWS THE USER'S CARD & ANIMATING IT
+            for (int i = 0; i < getPlayer(0).getLives(); i++) {
+                g.drawImage(lives, offsetX + (int)((1051-51*i)*scale), offsetY + (int)(25*scale), (int) (44 * scale), (int) (44 * scale), obs);
+            }
+
+            g.drawImage(b1, offsetX + (int)(800*scale), offsetY + (int)(364*scale), (int) (144 * scale), (int) (304 * scale), obs);
+            g.drawImage(b2, offsetX + (int)(475*scale), offsetY + (int)(300*scale), (int) (184 * scale), (int) (312 * scale), obs);
+            g.drawImage(b3, offsetX + (int)(150*scale), offsetY + (int)(364*scale), (int) (208 * scale), (int) (304 * scale), obs);
+            g.drawImage(table, offsetX + (int)(200*scale), offsetY + (int)(470*scale), (int) (720 * scale), (int) (198 * scale), obs);
+
             getPlayer(0).draw(100, 100, g, scale, offsetX, offsetY, Color.GREEN, obs);
+
+            // DRAWS THE USER'S CARD & ANIMATING IT
             if (itMove > -1) {
                 if (itMove < 14)
-                    prevCard.draw(450, 650 - (int)(400 *Math.cos(itMove/10.0)), g, scale, offsetX, offsetY, obs);
+                    prevCard.draw(475, 750 - (int)(400 *Math.cos(itMove/10.0)), g, scale, offsetX, offsetY, obs);
                 else
-                    getPlayer(0).getCard().draw(450, 650 - (int)(400 *Math.cos(itMove/10.0 + 3.14)), g, scale, offsetX, offsetY, obs);
+                    getPlayer(0).getCard().draw(475, 750 - (int)(400 *Math.cos(itMove/10.0 + 3.14)), g, scale, offsetX, offsetY, obs);
                 if (itMove < 32)
                     itMove++;
                 else
                     itMove = -1;
             } else {
-                getPlayer(0).getCard().draw(450, 250, g, scale, offsetX, offsetY, obs);
+                getPlayer(0).getCard().draw(475, 350, g, scale, offsetX, offsetY, obs);
             }
 
             for (int i = 1; i < playerCount; i++) {
