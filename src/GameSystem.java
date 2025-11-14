@@ -17,16 +17,17 @@ public class GameSystem {
 
     private boolean[] availableCards;
     private Player[] turnOrder;
-    private int turnStart, turn, playerCount;
+    private int turnStart, turn, playerCount, lowestRank;
     private PlayingCard deckCard;
     public PlayingCard traded;
     private PlayingCard prevCard;
-    private BufferedImage table, b1, b2, b3, lives;
+    private int[] lifeCount = {3, 3, 3, 3}; // for animations
+    private BufferedImage table, b1, b2, b3, a11, a12, a21, a22, a31, a32, lives, c1, c2, c3;
+    private BufferedImage h11, h12, h13, h21, h22, h23, h31, h32, h33, outline;
 
     // just a ton of flags
     private int gameOver; // 0 for not over, 1 for loss, 2 for win
     private int waiting;
-    private boolean showingCards, threadNotMade;
     private int iterator, itMove;
 
 
@@ -45,13 +46,32 @@ public class GameSystem {
             b1 = ImageIO.read(new File("src/resources/images/chars/body1.png"));
             b2 = ImageIO.read(new File("src/resources/images/chars/body2.png"));
             b3 = ImageIO.read(new File("src/resources/images/chars/body3.png"));
+            a11 = ImageIO.read(new File("src/resources/images/chars/arms1-1.png"));
+            a12 = ImageIO.read(new File("src/resources/images/chars/arms1-2.png"));
+            a21 = ImageIO.read(new File("src/resources/images/chars/arms2-1.png"));
+            a22 = ImageIO.read(new File("src/resources/images/chars/arms2-2.png"));
+            a31 = ImageIO.read(new File("src/resources/images/chars/arms3-1.png"));
+            a32 = ImageIO.read(new File("src/resources/images/chars/arms3-2.png"));
+            h11 = ImageIO.read(new File("src/resources/images/chars/head1-1.png"));
+            h12 = ImageIO.read(new File("src/resources/images/chars/head1-2.png"));
+            h13 = ImageIO.read(new File("src/resources/images/chars/head1-3.png"));
+            h21 = ImageIO.read(new File("src/resources/images/chars/head2-1.png"));
+            h22 = ImageIO.read(new File("src/resources/images/chars/head2-2.png"));
+            h23 = ImageIO.read(new File("src/resources/images/chars/head2-3.png"));
+            h31 = ImageIO.read(new File("src/resources/images/chars/head3-1.png"));
+            h32 = ImageIO.read(new File("src/resources/images/chars/head3-2.png"));
+            h33 = ImageIO.read(new File("src/resources/images/chars/head3-3.png"));
+            c1 = ImageIO.read(new File("src/resources/images/chips1.png"));
+            c2 = ImageIO.read(new File("src/resources/images/chips2.png"));
+            c3 = ImageIO.read(new File("src/resources/images/chips3.png"));
+            outline = ImageIO.read(new File("src/resources/images/cards/card_outline.png"));
             lives = ImageIO.read(new File("src/resources/images/lives.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         for(int i = 0; i < 52; i++) { availableCards[i] = true; }
-        for (int i = 0; i < playerCount; i++) { turnOrder[i] = new Player(); }
+        for (int i = 0; i < playerCount; i++) { turnOrder[i] = new Player(i); }
         setWaiting(0);
     }
 
@@ -62,7 +82,7 @@ public class GameSystem {
         playerCount = count;
         turnOrder = new Player[playerCount];
         for(int i = 0; i < 52; i++) { availableCards[i] = true; }
-        for (int i = 0; i < playerCount; i++) { turnOrder[i] = new Player(); }
+        for (int i = 0; i < playerCount; i++) { turnOrder[i] = new Player(i); }
     }
 
 
@@ -97,7 +117,7 @@ public class GameSystem {
     public void endRound() {
         //Determine what the lowest card is
         System.out.println("Ending Round...");
-        int lowestRank = 13;
+        lowestRank = 13;
         for (int i = 0; i < playerCount; i++) {
             if (turnOrder[i].getCard().getRank() < lowestRank) {
                 lowestRank = turnOrder[i].getCard().getRank();
@@ -130,6 +150,9 @@ public class GameSystem {
             }
 
         }
+        for (int i = 0; i < 4; i++) lifeCount[i] = 0;
+        for (int i = 0; i < playerCount; i++) lifeCount[turnOrder[i].getId()] = turnOrder[i].getLives();
+        System.out.println("[" + lifeCount[0] + ", " + lifeCount[1] + ", " + lifeCount[2] + ", " + lifeCount[3] + "]\n");
         if(playerCount == 1){
             gameOver = 2;
             setWaiting(0);
@@ -154,6 +177,7 @@ public class GameSystem {
     public void setGameOver(int gameOver) { this.gameOver = gameOver; }
     public void setIterator(int iterator) { this.iterator = iterator; }
     public void setItMove(int itMove) { this.itMove = itMove; }
+    public void setLowestRank (int lowestRank) { this.lowestRank = lowestRank; }
 
     /* FONT CREATION */
     public class FontLoaderExample extends JPanel {
@@ -186,42 +210,103 @@ public class GameSystem {
         if (gameOver == 0) {
 
             for (int i = 0; i < getPlayer(0).getLives(); i++) {
-                g.drawImage(lives, offsetX + (int)((1051-51*i)*scale), offsetY + (int)(25*scale), (int) (44 * scale), (int) (44 * scale), obs);
+                g.drawImage(lives, offsetX + (int)((1019-73*i)*scale), offsetY + (int)(25*scale), (int) (66 * scale), (int) (66 * scale), obs);
             }
 
-            g.drawImage(b1, offsetX + (int)(800*scale), offsetY + (int)(364*scale), (int) (144 * scale), (int) (304 * scale), obs);
-            g.drawImage(b2, offsetX + (int)(475*scale), offsetY + (int)(300*scale), (int) (184 * scale), (int) (312 * scale), obs);
-            g.drawImage(b3, offsetX + (int)(150*scale), offsetY + (int)(364*scale), (int) (208 * scale), (int) (304 * scale), obs);
-            g.drawImage(table, offsetX + (int)(200*scale), offsetY + (int)(470*scale), (int) (720 * scale), (int) (198 * scale), obs);
+            g.drawImage(b1, offsetX + (int)(740*scale), offsetY + (int)(140*scale), (int)(280 * scale), (int)(490 * scale), obs);
+            g.drawImage(b2, offsetX + (int)(425*scale), offsetY + (int)(80*scale), (int)(290 * scale), (int)(540 * scale), obs);
+            g.drawImage(b3, offsetX + (int)(80*scale), offsetY + (int)(140*scale), (int) (340 * scale), (int) (490 * scale), obs);
+            g.drawImage(table, offsetX + (int)(120*scale), offsetY + (int)(388*scale), (int)(880 * scale), (int)(242 * scale), obs);
 
-            getPlayer(0).draw(100, 100, g, scale, offsetX, offsetY, Color.GREEN, obs);
+            if (lifeCount[1] == 0) // first bot's arms
+                g.drawImage(a11, offsetX + (int)(740*scale), offsetY + (int)(140*scale), (int)(280 * scale), (int)(490 * scale), obs);
+            else g.drawImage(a12, offsetX + (int)(740*scale), offsetY + (int)(140*scale), (int)(280 * scale), (int)(490 * scale), obs);
+            if (lifeCount[2] == 0) // second bot's arms
+                g.drawImage(a21, offsetX + (int)(425*scale), offsetY + (int)(80*scale), (int)(290 * scale), (int)(540 * scale), obs);
+            else g.drawImage(a22, offsetX + (int)(425*scale), offsetY + (int)(80*scale), (int)(290 * scale), (int)(540 * scale), obs);
+            if (lifeCount[3] == 0) // third bot's arms
+                g.drawImage(a31, offsetX + (int)(80*scale), offsetY + (int)(140*scale), (int) (340 * scale), (int) (490 * scale), obs);
+            else g.drawImage(a32, offsetX + (int)(80*scale), offsetY + (int)(140*scale), (int) (340 * scale), (int) (490 * scale), obs);
+
+            if (turn == 0) { // user's turn
+                if (waiting == 0) {
+                    FontLoaderExample f = new FontLoaderExample();
+                    g.setFont(f.getCustomFont());
+                    g.drawString("Your Turn!", offsetX + (int) (500 * scale), offsetY + (int) (45 * scale));
+                    g.drawString("[SPACE] to Stay", offsetX + (int) (890 * scale), offsetY + (int) (590 * scale));
+                    g.drawString("[ENTER] to Trade", offsetX + (int) (890 * scale), offsetY + (int) (620 * scale));
+                }
+                g.drawImage(h11, offsetX + (int)(740*scale), offsetY + (int)(140*scale), (int)(280 * scale), (int)(490 * scale), obs);
+                g.drawImage(h22, offsetX + (int)(425*scale), offsetY + (int)(80*scale), (int)(290 * scale), (int)(540 * scale), obs);
+                g.drawImage(h33, offsetX + (int)(80*scale), offsetY + (int)(140*scale), (int) (340 * scale), (int) (490 * scale), obs);
+            } else if (turn == 1 && lifeCount[1] > 0) { // first bot's turn
+                g.drawImage(h12, offsetX + (int)(740*scale), offsetY + (int)(140*scale), (int)(280 * scale), (int)(490 * scale), obs);
+                g.drawImage(h21, offsetX + (int)(425*scale), offsetY + (int)(80*scale), (int)(290 * scale), (int)(540 * scale), obs);
+                g.drawImage(h32, offsetX + (int)(80*scale), offsetY + (int)(140*scale), (int) (340 * scale), (int) (490 * scale), obs);
+            } else if ((turn == 2 && lifeCount[1] > 0 && lifeCount[2] > 0) || (turn == 1 && lifeCount[1] == 0 && lifeCount[2] > 0)) { // second bot's turn
+                g.drawImage(h13, offsetX + (int)(740*scale), offsetY + (int)(140*scale), (int)(280 * scale), (int)(490 * scale), obs);
+                g.drawImage(h22, offsetX + (int)(425*scale), offsetY + (int)(80*scale), (int)(290 * scale), (int)(540 * scale), obs);
+                g.drawImage(h31, offsetX + (int)(80*scale), offsetY + (int)(140*scale), (int) (340 * scale), (int) (490 * scale), obs);
+            } else { // third bot's turn
+                g.drawImage(h12, offsetX + (int)(740*scale), offsetY + (int)(140*scale), (int)(280 * scale), (int)(490 * scale), obs);
+                g.drawImage(h23, offsetX + (int)(425*scale), offsetY + (int)(80*scale), (int)(290 * scale), (int)(540 * scale), obs);
+                g.drawImage(h32, offsetX + (int)(80*scale), offsetY + (int)(140*scale), (int) (340 * scale), (int) (490 * scale), obs);
+            }
+
+            // draw chips
+            if (lifeCount[1] > 2) g.drawImage(c3, offsetX + (int)(800*scale), offsetY + (int)(480*scale), (int) (27 * scale), (int) (63 * scale), obs);
+            if (lifeCount[1] > 1) g.drawImage(c2, offsetX + (int)(830*scale), offsetY + (int)(500*scale), (int) (27 * scale), (int) (63 * scale), obs);
+            if (lifeCount[1] > 0) g.drawImage(c1, offsetX + (int)(790*scale), offsetY + (int)(520*scale), (int) (27 * scale), (int) (63 * scale), obs);
+            if (lifeCount[2] > 2) g.drawImage(c3, offsetX + (int)(660*scale), offsetY + (int)(370*scale), (int) (27 * scale), (int) (63 * scale), obs);
+            if (lifeCount[2] > 1) g.drawImage(c2, offsetX + (int)(700*scale), offsetY + (int)(375*scale), (int) (27 * scale), (int) (63 * scale), obs);
+            if (lifeCount[2] > 0) g.drawImage(c1, offsetX + (int)(680*scale), offsetY + (int)(390*scale), (int) (27 * scale), (int) (63 * scale), obs);
+            if (lifeCount[3] > 2) g.drawImage(c3, offsetX + (int)(220*scale), offsetY + (int)(430*scale), (int) (27 * scale), (int) (63 * scale), obs);
+            if (lifeCount[3] > 1) g.drawImage(c2, offsetX + (int)(190*scale), offsetY + (int)(440*scale), (int) (27 * scale), (int) (63 * scale), obs);
+            if (lifeCount[3] > 0) g.drawImage(c1, offsetX + (int)(170*scale), offsetY + (int)(470*scale), (int) (27 * scale), (int) (63 * scale), obs);
 
             // DRAWS THE USER'S CARD & ANIMATING IT
             if (itMove > -1) {
                 if (itMove < 14)
-                    prevCard.draw(475, 750 - (int)(400 *Math.cos(itMove/10.0)), g, scale, offsetX, offsetY, obs);
+                    prevCard.draw(475, 775 - (int)(400 *Math.cos(itMove/10.0)), g, scale, offsetX, offsetY, obs);
                 else
-                    getPlayer(0).getCard().draw(475, 750 - (int)(400 *Math.cos(itMove/10.0 + 3.14)), g, scale, offsetX, offsetY, obs);
+                    getPlayer(0).getCard().draw(475, 775 - (int)(400 *Math.cos(itMove/10.0 + 3.14)), g, scale, offsetX, offsetY, obs);
                 if (itMove < 32)
                     itMove++;
                 else
                     itMove = -1;
             } else {
-                getPlayer(0).getCard().draw(475, 350, g, scale, offsetX, offsetY, obs);
+                getPlayer(0).getCard().draw(475, 375, g, scale, offsetX, offsetY, obs);
             }
 
-            for (int i = 1; i < playerCount; i++) {
-                if (i == turn)
-                    getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.RED, obs);
-                else
-                    getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.BLUE, obs);
-            }
+            /*for (int i = 1; i < playerCount; i++) {
+                if (i == turn) getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.RED, obs);
+                else getPlayer(i).draw(100 + 150 * i, 100, g, scale, offsetX, offsetY, Color.BLUE, obs);
+            } */
 
             // DRAWS CARD FLIP
             if (iterator > -1) {
-                for (int i = 0; i < playerCount; i++)
-                    getPlayer(i).getCard().drawFlip(150 + 150*i, 100, g, scale, offsetX, offsetY, 93*Math.cos(iterator/7.0), obs);
-                if (iterator < 22) iterator++;
+                FontLoaderExample f = new FontLoaderExample();
+                g.setFont(f.getCustomFont());
+                g.drawString("Revealing Cards!", offsetX + (int) (470 * scale), offsetY + (int) (45 * scale));
+                for (int i = 1; i < playerCount; i++) {
+                    if (getPlayer(i).getId() == 1)
+                        getPlayer(i).getCard().drawFlip(900, 400, g, scale, offsetX, offsetY, 93 * Math.cos(Math.min(iterator,22) / 7.0), obs);
+                    else if (getPlayer(i).getId() == 2)
+                        getPlayer(i).getCard().drawFlip(750, 300, g, scale, offsetX, offsetY, 93 * Math.cos(Math.min(iterator,22) / 7.0), obs);
+                    else if (getPlayer(i).getId() == 3)
+                        getPlayer(i).getCard().drawFlip(150, 350, g, scale, offsetX, offsetY, 93*Math.cos(Math.min(iterator,22)/7.0), obs);
+                }
+                iterator++;
+                if (iterator > 27) {
+                    for (int i = 0; i < playerCount; i++) {
+                        if (getPlayer(i).getCard().getRank() == lowestRank) {
+                            if (getPlayer(i).getId() == 0) g.drawImage(outline, offsetX + (int)(470*scale), offsetY + (int)(369.5*scale), (int) (181.5 * scale), (int) (258.5 * scale), obs);
+                            else if (getPlayer(i).getId() == 1) g.drawImage(outline, offsetX + (int)((900.5-49.5)*scale), offsetY + (int)(397*scale), (int) (99 * scale), (int) (141 * scale), obs);
+                            else if (getPlayer(i).getId() == 2) g.drawImage(outline, offsetX + (int)((750.5-49.5)*scale), offsetY + (int)(297*scale), (int) (99 * scale), (int) (141 * scale), obs);
+                            else g.drawImage(outline, offsetX + (int)((151-49.5)*scale), offsetY + (int)(347*scale), (int) (99 * scale), (int) (141 * scale), obs);
+                        }
+                    }
+                }
             }
 
 
@@ -240,9 +325,10 @@ public class GameSystem {
                     playerCount = 4;
                     turnOrder = new Player[playerCount];
                     for (int i = 0; i < playerCount; i++) {
-                        turnOrder[i] = new Player();
+                        turnOrder[i] = new Player(i);
                     }
                     gameOver = 0;
+                    for (int i = 0; i < playerCount; i++) lifeCount[i] = 3;
                     start();
                 }
             }else if (gameOver == 2) {
@@ -253,9 +339,10 @@ public class GameSystem {
                     playerCount = 4;
                     turnOrder = new Player[playerCount];
                     for (int i = 0; i < playerCount; i++) {
-                        turnOrder[i] = new Player();
+                        turnOrder[i] = new Player(i);
                     }
                     gameOver = 0;
+                    for (int i = 0; i < playerCount; i++) lifeCount[i] = 3;
                     start();
                 }
             }else if (gameOver == 3) {
@@ -266,9 +353,10 @@ public class GameSystem {
                     playerCount = 4;
                     turnOrder = new Player[playerCount];
                     for (int i = 0; i < playerCount; i++) {
-                        turnOrder[i] = new Player();
+                        turnOrder[i] = new Player(i);
                     }
                     gameOver = 0;
+                    for (int i = 0; i < playerCount; i++) lifeCount[i] = 3;
                     start();
                 }
             }

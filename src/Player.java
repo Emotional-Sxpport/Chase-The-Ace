@@ -3,13 +3,15 @@ import java.awt.image.ImageObserver;
 
 public class Player {
     private PlayingCard playingCard;
-    private int lives;
+    private int lives, id;
 
     /* CONSTRUCTORS */
-    public Player() {
+    public Player(int id) {
         playingCard = new PlayingCard();
         lives = 3;
+        this.id = id;
     }
+
     public Player(PlayingCard playingCard) {
         this.playingCard = playingCard;
         this.lives = 3;
@@ -89,6 +91,7 @@ public class Player {
     public void setCard(PlayingCard playingCard) { this.playingCard = playingCard; }
     public void loseLife() { this.lives--; }
     public int getLives() { return lives; }
+    public int getId() { return id; }
 
 
     /* DRAW FUNCTION */
@@ -100,6 +103,7 @@ public class Player {
         g.fillRect(offsetX + (int) (x * scale), offsetY + (int) (y * scale), (int) (80 * scale), (int) (80 * scale));
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, (int)(16*scale)));
+        g.drawString("id: " + id, offsetX + (int) ((x + 5) * scale), offsetY + (int) ((y + 30) * scale));
         g.drawString("" + lives, offsetX + (int) ((x + 5) * scale), offsetY + (int) ((y + 45) * scale));
         g.drawString(ranks[getCard().getRank()] + " of", offsetX + (int) ((x + 5) * scale), offsetY + (int) ((y + 60) * scale));
         g.drawString(suits[getCard().getSuit()], offsetX + (int) ((x + 5) * scale), offsetY + (int) ((y + 75) * scale));

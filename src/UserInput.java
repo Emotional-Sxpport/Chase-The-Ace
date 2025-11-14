@@ -69,9 +69,22 @@ public class UserInput extends Thread {
                 }
             }
         }
+        int min = 13;
+        for (int i = 0; i < playerCount; i++) {
+            if (turnOrder[i].getCard().getRank() < min)  {
+                min = turnOrder[i].getCard().getRank();
+            }
+        }
+        system.setLowestRank(min);
+        try {
+            sleep(2500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         system.setIterator(0);
         try {
-            sleep(3500);
+            sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
