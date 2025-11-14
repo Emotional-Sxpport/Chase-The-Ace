@@ -14,13 +14,17 @@ public class UserInput extends Thread {
         int turnStart = (int) (Math.random() * playerCount);
         int turn = turnStart;
 
-        system.shuffle();
+
+        system.setPrevCard(turnOrder[0].getCard());
+        system.setItMove(0);
 
         try {
             sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        system.shuffle();
 
         for (int i = 0; i < playerCount; i++) {
 
@@ -87,13 +91,14 @@ public class UserInput extends Thread {
         }
 
         system.setIterator(0);
-        system.setPrevCard(turnOrder[0].getCard());
+
         try {
             sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        system.setItMove(0);
+        //system.setItMove(0);
+        //system.setPrevCard(turnOrder[0].getCard());
         system.endRound();
     }
 }

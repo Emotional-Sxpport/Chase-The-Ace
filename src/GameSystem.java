@@ -119,12 +119,15 @@ public class GameSystem {
     public void endRound() {
         //Determine what the lowest card is
         System.out.println("Ending Round...");
+        //setPrevCard(turnOrder[0].getCard());
         lowestRank = 13;
         for (int i = 0; i < playerCount; i++) {
             if (turnOrder[i].getCard().getRank() < lowestRank) {
                 lowestRank = turnOrder[i].getCard().getRank();
             }
         }
+
+        //itMove = 0;
 
         //Remove lives from the player(s) with the lowest card(s)
         for (int i = 0; i < playerCount; i++) {
