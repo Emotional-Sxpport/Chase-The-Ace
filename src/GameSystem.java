@@ -152,7 +152,6 @@ public class GameSystem {
         }
         for (int i = 0; i < 4; i++) lifeCount[i] = 0;
         for (int i = 0; i < playerCount; i++) lifeCount[turnOrder[i].getId()] = turnOrder[i].getLives();
-        System.out.println("[" + lifeCount[0] + ", " + lifeCount[1] + ", " + lifeCount[2] + ", " + lifeCount[3] + "]\n");
         if(playerCount == 1){
             gameOver = 2;
             setWaiting(0);

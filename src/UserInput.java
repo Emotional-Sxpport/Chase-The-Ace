@@ -25,7 +25,6 @@ public class UserInput extends Thread {
                 //if stay, increment turn
 
                 system.setTurn(turn);
-                System.out.println("PLAYERS TURN");
                 system.setWaiting(0);
                 while (system.getWaiting() == 0) {
                     try {
@@ -61,7 +60,6 @@ public class UserInput extends Thread {
                 system.setPrevCard(turnOrder[0].getCard());
                 traded = turnOrder[turn].play(traded, turnOrder, turn, turnStart, 0, system.getPlayerCount(), system);
                 turn = (turn + 1) % playerCount;
-                System.out.println("NOT PLAYERS TURN");
                 try {
                     sleep(2000);
                 } catch (InterruptedException e) {
