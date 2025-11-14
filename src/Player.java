@@ -24,14 +24,13 @@ public class Player {
         if(nextPlayer == initialP) {
             //Generate new card
             PlayingCard temp2 = new PlayingCard();
-            temp2.randomize();
             int x=0;
             int y=0;
             while(y==0) {
+                temp2.randomize();
                 for (int i = 0; i < pCount; i++) {
                     if (temp2.equals(turnOrder[i].getCard())) {
                         x = 1;
-                        break;
                     }
                 }
                 if (x == 0) {
@@ -89,7 +88,7 @@ public class Player {
             }
 
         //If they were traded with, consider their rank to the previous one
-        }else if(othercard > this.playingCard.getRank() && playingCard.getRank() < 6){
+        }else if(othercard >= this.playingCard.getRank() && playingCard.getRank() < 6){
             //trade
             othercard = trade(playingCard, othercard, turnOrder, (currentPlayer+1)%pCount, initialP, system, pCount);
         } else {
