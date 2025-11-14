@@ -87,11 +87,13 @@ public class UserInput extends Thread {
         }
 
         system.setIterator(0);
+        system.setPrevCard(turnOrder[0].getCard());
         try {
             sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        system.setItMove(0);
         system.endRound();
     }
 }
